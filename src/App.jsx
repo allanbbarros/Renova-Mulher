@@ -52,14 +52,14 @@ const App = () => {
     }
   }
   const SkinIcon = ({ color }) => (
-    <svg viewBox="0 0 100 100" width="55" height="55">
+    <svg viewBox="0 0 100 100" width="85" height="85">
       <path d="M50 15c-15 0-25 10-25 25 0 15 10 25 25 25s25-10 25-25c0-15-10-25-25-25z" fill={color} style={{ transition: 'fill 0.4s ease' }} />
       <path d="M50 70c-20 0-35 10-35 25h70c0-15-15-25-35-25z" fill={color} opacity="0.6" style={{ transition: 'fill 0.4s ease' }} />
     </svg>
   )
 
   const HairIcon = ({ color }) => (
-    <svg viewBox="0 0 100 100" width="70" height="70">
+    <svg viewBox="0 0 100 100" width="100" height="100">
       {/* Cabelo Longo Editorial */}
       <path d="M50 5C20 5 8 25 8 50c0 25-5 45-5 45h20c5-10 10-15 27-15s22 5 27 15h20c0 0-5-20-5-45C92 25 80 5 50 5z" fill={color} opacity="0.4" style={{ transition: 'fill 0.4s ease' }} />
       <path d="M50 10C30 10 15 30 15 55c0 20-3 35-3 35h15c3-10 8-15 23-15s20 5 23 15h15s-3-15-3-35c0-25-15-45-35-45z" fill={color} style={{ transition: 'fill 0.4s ease' }} />
@@ -70,7 +70,7 @@ const App = () => {
   )
 
   const EyeIcon = ({ color }) => (
-    <svg viewBox="0 0 100 100" width="60" height="60">
+    <svg viewBox="0 0 100 100" width="90" height="90">
       <path d="M10 50C10 50 30 25 50 25C70 25 90 50 90 50C90 50 70 75 50 75C30 75 10 50 10 50Z" fill="#fff" opacity="0.9"/>
       <circle cx="50" cy="50" r="18" fill={color} style={{ transition: 'fill 0.4s ease' }} />
       <circle cx="50" cy="50" r="8" fill="#000" />
