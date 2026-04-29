@@ -174,11 +174,11 @@ const App = () => {
 
   const renderWelcome = () => (
     <div className="animate-fade">
-      <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px' }}>
-        <div className="logo" style={{ fontSize: '3.2rem', marginBottom: '8px', display: 'block', letterSpacing: '8px' }}>
+      <div style={{ textAlign: 'center', marginTop: '40px', marginBottom: '40px' }}>
+        <div className="logo" style={{ fontSize: '2.4rem', marginBottom: '5px', display: 'block', letterSpacing: '6px' }}>
           RENOVA <span>Mulher</span>
         </div>
-        <p style={{ letterSpacing: '4px', fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.6, textTransform: 'uppercase', fontWeight: '900' }}>
+        <p style={{ letterSpacing: '3px', fontSize: '0.65rem', color: 'var(--text-muted)', opacity: 0.5, textTransform: 'uppercase', fontWeight: '800' }}>
           INTELIGÊNCIA ARTIFICIAL • DIGITAL LUXURY
         </p>
       </div>
