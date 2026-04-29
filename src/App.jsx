@@ -12,6 +12,7 @@ const App = () => {
     nome: '', idade_faixa: '', tipo_pele: '', ouro_ou_prata: '',
     cor_cabelo: '', cor_olhos: '', estilo_atual: '', ja_fez_consultoria: ''
   })
+  const [showErrors, setShowErrors] = useState(false)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -76,86 +77,129 @@ const App = () => {
     </div>
   )
 
-  const renderQuiz = () => (
-    <div className="animate-fade">
-      <div style={{ marginBottom: '30px' }}>
-        <div className="badge">PASSO {quizStep} DE 2</div>
-        <h2>{quizStep === 1 ? 'Sua Identidade' : 'Seu Perfil Visual'}</h2>
-        <div className="progress-bar" style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginTop: '15px' }}>
-          <div className="progress-fill" style={{ height: '100%', background: 'var(--primary)', width: `${quizStep === 1 ? '50%' : '100%'}`, transition: 'width 0.5s', borderRadius: '2px' }}></div>
+  const renderQuiz = () => {
+    const step1Valid = formData.nome && formData.idade_faixa && formData.tipo_pele && formData.ouro_ou_prata
+    const step2Valid = formData.cor_cabelo && formData.cor_olhos
+
+    const handleNext = () => {
+      if (quizStep === 1) {
+        if (step1Valid) {
+          setQuizStep(2)
+          setShowErrors(false)
+        } else {
+          setShowErrors(true)
+        }
+      } else {
+        if (step2Valid) {
+          setStep('PHOTOS')
+          setShowErrors(false)
+        } else {
+          setShowErrors(true)
+        }
+      }
+    }
+
+    return (
+      <div className="animate-fade">
+        <div style={{ marginBottom: '30px' }}>
+          <div className="badge">PASSO {quizStep} DE 2</div>
+          <h2>{quizStep === 1 ? 'Sua Identidade' : 'Seu Perfil Visual'}</h2>
+          <div className="progress-bar" style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginTop: '15px' }}>
+            <div className="progress-fill" style={{ height: '100%', background: 'var(--primary)', width: `${quizStep === 1 ? '50%' : '100%'}`, transition: 'width 0.5s', borderRadius: '2px' }}></div>
+          </div>
         </div>
-      </div>
 
-      {quizStep === 1 ? (
-        <>
-          <div className="input-group">
-            <label className="label-futuristic">Como podemos te chamar?</label>
-            <input type="text" className="input-field" placeholder="Nome Completo" value={formData.nome} onChange={(e) => setFormData({...formData, nome: e.target.value})} />
-          </div>
-          <div className="input-group">
-            <label className="label-futuristic">Faixa de Idade</label>
-            <div className="chip-grid">
-              {['18-25', '26-35', '36-45', '46+'].map(v => <button key={v} type="button" className={`chip ${formData.idade_faixa === v ? 'active' : ''}`} onClick={() => setFormData({...formData, idade_faixa: v})}>{v}</button>)}
+        {quizStep === 1 ? (
+          <>
+            <div className={`input-group ${showErrors && !formData.nome ? 'invalid shake' : ''}`}>
+              <label className="label-futuristic">Como podemos te chamar?</label>
+              <input type="text" className="input-field" placeholder="Nome Completo" value={formData.nome} onChange={(e) => setFormData({...formData, nome: e.target.value})} />
+              {showErrors && !formData.nome && <span className="error-text">POR FAVOR, INSIRA SEU NOME</span>}
             </div>
-          </div>
-          <div className="input-group">
-            <label className="label-futuristic">Tipo de Pele</label>
-            <div className="chip-grid">
-              {['Clara', 'Média', 'Escura'].map(v => <button key={v} type="button" className={`chip ${formData.tipo_pele === v ? 'active' : ''}`} onClick={() => setFormData({...formData, tipo_pele: v})}>{v}</button>)}
+            <div className={`input-group ${showErrors && !formData.idade_faixa ? 'invalid shake' : ''}`}>
+              <label className="label-futuristic">Faixa de Idade</label>
+              <div className="chip-grid">
+                {['18-25', '26-35', '36-45', '46+'].map(v => <button key={v} type="button" className={`chip ${formData.idade_faixa === v ? 'active' : ''}`} onClick={() => setFormData({...formData, idade_faixa: v})}>{v}</button>)}
+              </div>
+              {showErrors && !formData.idade_faixa && <span className="error-text">SELECIONE SUA IDADE</span>}
             </div>
-          </div>
-          <div className="input-group">
-            <label className="label-futuristic">Metal Predominante</label>
-            <div className="chip-grid">
-              {['Ouro', 'Prata', 'Ambos'].map(v => <button key={v} type="button" className={`chip ${formData.ouro_ou_prata === v ? 'active' : ''}`} onClick={() => setFormData({...formData, ouro_ou_prata: v})}>{v}</button>)}
+            <div className={`input-group ${showErrors && !formData.tipo_pele ? 'invalid shake' : ''}`}>
+              <label className="label-futuristic">Tipo de Pele</label>
+              <div className="chip-grid">
+                {['Clara', 'Média', 'Escura'].map(v => <button key={v} type="button" className={`chip ${formData.tipo_pele === v ? 'active' : ''}`} onClick={() => setFormData({...formData, tipo_pele: v})}>{v}</button>)}
+              </div>
+              {showErrors && !formData.tipo_pele && <span className="error-text">SELECIONE SEU TIPO DE PELE</span>}
             </div>
-          </div>
-          <button className="btn-primary" disabled={!formData.nome || !formData.idade_faixa} onClick={() => setQuizStep(2)}>Próximo</button>
-        </>
-      ) : (
-        <>
-          <div className="input-group">
-            <label className="label-futuristic">Cor do Cabelo</label>
-            <div className="chip-grid">
-              {['Loiro', 'Castanho', 'Preto', 'Ruivo'].map(v => <button key={v} type="button" className={`chip ${formData.cor_cabelo === v ? 'active' : ''}`} onClick={() => setFormData({...formData, cor_cabelo: v})}>{v}</button>)}
+            <div className={`input-group ${showErrors && !formData.ouro_ou_prata ? 'invalid shake' : ''}`}>
+              <label className="label-futuristic">Metal Predominante</label>
+              <div className="chip-grid">
+                {['Ouro', 'Prata', 'Ambos'].map(v => <button key={v} type="button" className={`chip ${formData.ouro_ou_prata === v ? 'active' : ''}`} onClick={() => setFormData({...formData, ouro_ou_prata: v})}>{v}</button>)}
+              </div>
+              {showErrors && !formData.ouro_ou_prata && <span className="error-text">SELECIONE UMA OPÇÃO</span>}
             </div>
-          </div>
-          <div className="input-group">
-            <label className="label-futuristic">Cor dos Olhos</label>
-            <div className="chip-grid">
-              {['Castanhos', 'Azuis', 'Verdes', 'Mel'].map(v => <button key={v} type="button" className={`chip ${formData.cor_olhos === v ? 'active' : ''}`} onClick={() => setFormData({...formData, cor_olhos: v})}>{v}</button>)}
-            </div>
-          </div>
-          <button className="btn-primary" onClick={() => setStep('PHOTOS')}>Continuar</button>
-        </>
-      )}
-    </div>
-  )
-
-  const renderPhotos = () => (
-    <div className="animate-fade">
-      <div style={{ marginBottom: '30px' }}>
-        <div className="badge">SCAN VISUAL</div>
-        <h2>Documentação <br/> <span className="serif" style={{ textTransform: 'none' }}>Bioestética</span></h2>
-        <p style={{ fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', color: 'var(--text-muted)', marginTop: '10px' }}>Carregue uma selfie frontal com iluminação natural para precisão técnica.</p>
-      </div>
-      
-      <label className="card animate-slide-up" style={{ cursor: 'pointer', textAlign: 'center', padding: '0', overflow: 'hidden' }}>
-        <input type="file" hidden accept="image/*" onChange={(e) => handleFileUpload('selfie', e)} />
-        {userPhotos.selfie ? (
-          <img src={userPhotos.selfie} style={{ width: '100%', height: 'auto', minHeight: '300px', maxHeight: '400px', objectFit: 'cover' }} />
+            <button className="btn-primary" onClick={handleNext}>Próximo</button>
+          </>
         ) : (
-          <div style={{ padding: '60px 30px' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '20px' }}>📸</div>
-            <h4 style={{ color: 'var(--white)', fontSize: '0.8rem', letterSpacing: '2px' }}>CARREGAR FOTO</h4>
-            <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '10px' }}>Certifique-se de estar sem óculos e com o rosto limpo.</p>
-          </div>
+          <>
+            <div className={`input-group ${showErrors && !formData.cor_cabelo ? 'invalid shake' : ''}`}>
+              <label className="label-futuristic">Cor do Cabelo</label>
+              <div className="chip-grid">
+                {['Loiro', 'Castanho', 'Preto', 'Ruivo'].map(v => <button key={v} type="button" className={`chip ${formData.cor_cabelo === v ? 'active' : ''}`} onClick={() => setFormData({...formData, cor_cabelo: v})}>{v}</button>)}
+              </div>
+              {showErrors && !formData.cor_cabelo && <span className="error-text">SELECIONE A COR DO CABELO</span>}
+            </div>
+            <div className={`input-group ${showErrors && !formData.cor_olhos ? 'invalid shake' : ''}`}>
+              <label className="label-futuristic">Cor dos Olhos</label>
+              <div className="chip-grid">
+                {['Castanhos', 'Azuis', 'Verdes', 'Mel'].map(v => <button key={v} type="button" className={`chip ${formData.cor_olhos === v ? 'active' : ''}`} onClick={() => setFormData({...formData, cor_olhos: v})}>{v}</button>)}
+              </div>
+              {showErrors && !formData.cor_olhos && <span className="error-text">SELECIONE A COR DOS OLHOS</span>}
+            </div>
+            <button className="btn-primary" onClick={handleNext}>Continuar</button>
+          </>
         )}
-      </label>
+      </div>
+    )
+  }
 
-      <button className="btn-primary animate-slide-up" disabled={!userPhotos.selfie} onClick={() => { setStep('PROCESSING'); setAnalysisStep(0); setTimeout(() => setStep('RESULT_PARTIAL'), 25000) }}>GERAR MEU DOSSIÊ AGORA</button>
-    </div>
-  )
+  const renderPhotos = () => {
+    const handleGenerate = () => {
+      if (userPhotos.selfie) {
+        setStep('PROCESSING')
+        setAnalysisStep(0)
+        setShowErrors(false)
+        setTimeout(() => setStep('RESULT_PARTIAL'), 25000)
+      } else {
+        setShowErrors(true)
+      }
+    }
+
+    return (
+      <div className="animate-fade">
+        <div style={{ marginBottom: '30px' }}>
+          <div className="badge">SCAN VISUAL</div>
+          <h2>Documentação <br/> <span className="serif" style={{ textTransform: 'none' }}>Bioestética</span></h2>
+          <p style={{ fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', color: 'var(--text-muted)', marginTop: '10px' }}>Carregue uma selfie frontal com iluminação natural para precisão técnica.</p>
+        </div>
+        
+        <label className={`card animate-slide-up ${showErrors && !userPhotos.selfie ? 'invalid shake' : ''}`} style={{ cursor: 'pointer', textAlign: 'center', padding: '0', overflow: 'hidden', border: showErrors && !userPhotos.selfie ? '1px solid #ff4d4d' : '1px solid var(--glass-border)' }}>
+          <input type="file" hidden accept="image/*" onChange={(e) => handleFileUpload('selfie', e)} />
+          {userPhotos.selfie ? (
+            <img src={userPhotos.selfie} style={{ width: '100%', height: 'auto', minHeight: '300px', maxHeight: '400px', objectFit: 'cover' }} />
+          ) : (
+            <div style={{ padding: '60px 30px' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '20px' }}>📸</div>
+              <h4 style={{ color: showErrors && !userPhotos.selfie ? '#ff4d4d' : 'var(--white)', fontSize: '0.8rem', letterSpacing: '2px' }}>CARREGAR FOTO</h4>
+              <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '10px' }}>Certifique-se de estar sem óculos e com o rosto limpo.</p>
+            </div>
+          )}
+        </label>
+        {showErrors && !userPhotos.selfie && <p className="error-text" style={{ textAlign: 'center', marginBottom: '15px' }}>SUA FOTO É OBRIGATÓRIA PARA A ANÁLISE</p>}
+
+        <button className="btn-primary animate-slide-up" onClick={handleGenerate}>GERAR MEU DOSSIÊ AGORA</button>
+      </div>
+    )
+  }
 
   const getDiagnostic = () => {
     const isWarm = formData.ouro_ou_prata === 'Ouro'
