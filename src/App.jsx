@@ -1,6 +1,126 @@
 import React, { useState, useEffect } from 'react'
 import './index.css'
 
+import './index.css'
+
+const SkinIcon = ({ color }) => (
+  <svg viewBox="0 0 100 100" width="85" height="85">
+    <path d="M50 15c-15 0-25 10-25 25 0 15 10 25 25 25s25-10 25-25c0-15-10-25-25-25z" fill={color} style={{ transition: 'fill 0.4s ease' }} />
+    <path d="M50 70c-20 0-35 10-35 25h70c0-15-15-25-35-25z" fill={color} opacity="0.6" style={{ transition: 'fill 0.4s ease' }} />
+  </svg>
+)
+
+const HairIcon = ({ color }) => (
+  <svg viewBox="0 0 100 100" width="100" height="100">
+    {/* Cabelo Longo Editorial */}
+    <path d="M50 5C20 5 8 25 8 50c0 25-5 45-5 45h20c5-10 10-15 27-15s22 5 27 15h20c0 0-5-20-5-45C92 25 80 5 50 5z" fill={color} opacity="0.4" style={{ transition: 'fill 0.4s ease' }} />
+    <path d="M50 10C30 10 15 30 15 55c0 20-3 35-3 35h15c3-10 8-15 23-15s20 5 23 15h15s-3-15-3-35c0-25-15-45-35-45z" fill={color} style={{ transition: 'fill 0.4s ease' }} />
+    {/* Detalhes de mechas longas */}
+    <path d="M30 40c-2 15-2 35 0 45" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+    <path d="M70 40c2 15 2 35 0 45" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+  </svg>
+)
+
+const EyeIcon = ({ color }) => (
+  <svg viewBox="0 0 100 100" width="90" height="90">
+    <path d="M10 50C10 50 30 25 50 25C70 25 90 50 90 50C90 50 70 75 50 75C30 75 10 50 10 50Z" fill="#fff" opacity="0.9"/>
+    <circle cx="50" cy="50" r="18" fill={color} style={{ transition: 'fill 0.4s ease' }} />
+    <circle cx="50" cy="50" r="8" fill="#000" />
+    <circle cx="56" cy="44" r="3" fill="#fff" opacity="0.6" />
+  </svg>
+)
+
+const VisualSlider = ({ label, type, options, trackClass, formData, setFormData, showErrors, step }) => {
+  const [localValue, setLocalValue] = useState(0)
+  
+  // Inicializar localValue baseado no formData atual
+  useEffect(() => {
+    const idx = options.findIndex(t => t.label === formData[type])
+    if (idx !== -1) setLocalValue((idx / (options.length - 1)) * 1000)
+  }, [step])
+
+  const interpolateColor = (val) => {
+    const factor = val / 1000
+    const segmentSize = 1 / (options.length - 1)
+    const segmentIndex = Math.min(Math.floor(factor / segmentSize), options.length - 2)
+    const localFactor = (factor - (segmentIndex * segmentSize)) / segmentSize
+    
+    const c1 = options[segmentIndex].color
+    const c2 = options[segmentIndex + 1].color
+    
+    // Helper to parse hex and interpolate
+    const r1 = parseInt(c1.substring(1,3), 16)
+    const g1 = parseInt(c1.substring(3,5), 16)
+    const b1 = parseInt(c1.substring(5,7), 16)
+    
+    const r2 = parseInt(c2.substring(1,3), 16)
+    const g2 = parseInt(c2.substring(3,5), 16)
+    const b2 = parseInt(c2.substring(5,7), 16)
+    
+    const r = Math.round(r1 + (r2 - r1) * localFactor)
+    const g = Math.round(g1 + (g2 - g1) * localFactor)
+    const b = Math.round(b1 + (b2 - b1) * localFactor)
+    
+    return `rgb(${r}, ${g}, ${b})`
+  }
+
+  const handleSliderChange = (e) => {
+    const val = parseInt(e.target.value)
+    setLocalValue(val)
+    
+    // Mapear valor para o label mais próximo para salvar no estado global
+    const idx = Math.round((val / 1000) * (options.length - 1))
+    if (formData[type] !== options[idx].label) {
+      setFormData({...formData, [type]: options[idx].label})
+    }
+  }
+
+  const adjustValue = (delta) => {
+    const newVal = Math.max(0, Math.min(1000, localValue + delta))
+    handleSliderChange({ target: { value: newVal } })
+  }
+
+  return (
+    <div className={`input-group ${showErrors && !formData[type] ? 'invalid shake' : ''}`}>
+      <label className="label-futuristic">{label}</label>
+      <div className="skin-slider-container">
+        <div className="skin-slider-preview" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(198,142,23,0.1)' }}>
+          {type === 'tipo_pele' && <SkinIcon color={interpolateColor(localValue)} />}
+          {type === 'cor_cabelo' && <HairIcon color={interpolateColor(localValue)} />}
+          {type === 'cor_olhos' && <EyeIcon color={interpolateColor(localValue)} />}
+        </div>
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <button className="slider-arrow-btn" onClick={() => adjustValue(-50)}>
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          
+          <input 
+            type="range" 
+            min="0" 
+            max="1000" 
+            step="1"
+            value={localValue}
+            className={`skin-slider-track ${trackClass || ''}`}
+            onInput={handleSliderChange}
+          />
+
+          <button className="slider-arrow-btn" onClick={() => adjustValue(50)}>
+            <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        <div className="skin-slider-labels">
+          <span>{options[0].label.toUpperCase()}</span>
+          <span style={{ color: 'var(--primary)', fontWeight: '900' }}>{formData[type] || 'AJUSTE'}</span>
+          <span>{options[options.length - 1].label.toUpperCase()}</span>
+        </div>
+      </div>
+      {showErrors && !formData[type] && <span className="error-text">AJUSTE O SLIDER PARA SELECIONAR</span>}
+    </div>
+  )
+}
+
 const App = () => {
   const [step, setStep] = useState('WELCOME')
   const [quizStep, setQuizStep] = useState(1)
@@ -50,123 +170,6 @@ const App = () => {
       const url = URL.createObjectURL(file)
       setUserPhotos(prev => ({ ...prev, [type]: url }))
     }
-  }
-  const SkinIcon = ({ color }) => (
-    <svg viewBox="0 0 100 100" width="85" height="85">
-      <path d="M50 15c-15 0-25 10-25 25 0 15 10 25 25 25s25-10 25-25c0-15-10-25-25-25z" fill={color} style={{ transition: 'fill 0.4s ease' }} />
-      <path d="M50 70c-20 0-35 10-35 25h70c0-15-15-25-35-25z" fill={color} opacity="0.6" style={{ transition: 'fill 0.4s ease' }} />
-    </svg>
-  )
-
-  const HairIcon = ({ color }) => (
-    <svg viewBox="0 0 100 100" width="100" height="100">
-      {/* Cabelo Longo Editorial */}
-      <path d="M50 5C20 5 8 25 8 50c0 25-5 45-5 45h20c5-10 10-15 27-15s22 5 27 15h20c0 0-5-20-5-45C92 25 80 5 50 5z" fill={color} opacity="0.4" style={{ transition: 'fill 0.4s ease' }} />
-      <path d="M50 10C30 10 15 30 15 55c0 20-3 35-3 35h15c3-10 8-15 23-15s20 5 23 15h15s-3-15-3-35c0-25-15-45-35-45z" fill={color} style={{ transition: 'fill 0.4s ease' }} />
-      {/* Detalhes de mechas longas */}
-      <path d="M30 40c-2 15-2 35 0 45" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-      <path d="M70 40c2 15 2 35 0 45" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-    </svg>
-  )
-
-  const EyeIcon = ({ color }) => (
-    <svg viewBox="0 0 100 100" width="90" height="90">
-      <path d="M10 50C10 50 30 25 50 25C70 25 90 50 90 50C90 50 70 75 50 75C30 75 10 50 10 50Z" fill="#fff" opacity="0.9"/>
-      <circle cx="50" cy="50" r="18" fill={color} style={{ transition: 'fill 0.4s ease' }} />
-      <circle cx="50" cy="50" r="8" fill="#000" />
-      <circle cx="56" cy="44" r="3" fill="#fff" opacity="0.6" />
-    </svg>
-  )
-
-  const VisualSlider = ({ label, type, options, trackClass }) => {
-    const [localValue, setLocalValue] = useState(0)
-    
-    // Inicializar localValue baseado no formData atual
-    useEffect(() => {
-      const idx = options.findIndex(t => t.label === formData[type])
-      if (idx !== -1) setLocalValue((idx / (options.length - 1)) * 1000)
-    }, [step])
-
-    const interpolateColor = (val) => {
-      const factor = val / 1000
-      const segmentSize = 1 / (options.length - 1)
-      const segmentIndex = Math.min(Math.floor(factor / segmentSize), options.length - 2)
-      const localFactor = (factor - (segmentIndex * segmentSize)) / segmentSize
-      
-      const c1 = options[segmentIndex].color
-      const c2 = options[segmentIndex + 1].color
-      
-      // Helper to parse hex and interpolate
-      const r1 = parseInt(c1.substring(1,3), 16)
-      const g1 = parseInt(c1.substring(3,5), 16)
-      const b1 = parseInt(c1.substring(5,7), 16)
-      
-      const r2 = parseInt(c2.substring(1,3), 16)
-      const g2 = parseInt(c2.substring(3,5), 16)
-      const b2 = parseInt(c2.substring(5,7), 16)
-      
-      const r = Math.round(r1 + (r2 - r1) * localFactor)
-      const g = Math.round(g1 + (g2 - g1) * localFactor)
-      const b = Math.round(b1 + (b2 - b1) * localFactor)
-      
-      return `rgb(${r}, ${g}, ${b})`
-    }
-
-    const handleSliderChange = (e) => {
-      const val = parseInt(e.target.value)
-      setLocalValue(val)
-      
-      // Mapear valor para o label mais próximo para salvar no estado global
-      const idx = Math.round((val / 1000) * (options.length - 1))
-      if (formData[type] !== options[idx].label) {
-        setFormData({...formData, [type]: options[idx].label})
-      }
-    }
-
-    const adjustValue = (delta) => {
-      const newVal = Math.max(0, Math.min(1000, localValue + delta))
-      handleSliderChange({ target: { value: newVal } })
-    }
-
-    return (
-      <div className={`input-group ${showErrors && !formData[type] ? 'invalid shake' : ''}`}>
-        <label className="label-futuristic">{label}</label>
-        <div className="skin-slider-container">
-          <div className="skin-slider-preview" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(198,142,23,0.1)' }}>
-            {type === 'tipo_pele' && <SkinIcon color={interpolateColor(localValue)} />}
-            {type === 'cor_cabelo' && <HairIcon color={interpolateColor(localValue)} />}
-            {type === 'cor_olhos' && <EyeIcon color={interpolateColor(localValue)} />}
-          </div>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-            <button className="slider-arrow-btn" onClick={() => adjustValue(-50)}>
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none"><path d="m15 18-6-6 6-6"/></svg>
-            </button>
-            
-            <input 
-              type="range" 
-              min="0" 
-              max="1000" 
-              step="1"
-              value={localValue}
-              className={`skin-slider-track ${trackClass || ''}`}
-              onInput={handleSliderChange}
-            />
-
-            <button className="slider-arrow-btn" onClick={() => adjustValue(50)}>
-              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none"><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-          </div>
-
-          <div className="skin-slider-labels">
-            <span>{options[0].label.toUpperCase()}</span>
-            <span style={{ color: 'var(--primary)', fontWeight: '900' }}>{formData[type] || 'AJUSTE'}</span>
-            <span>{options[options.length - 1].label.toUpperCase()}</span>
-          </div>
-        </div>
-        {showErrors && !formData[type] && <span className="error-text">AJUSTE O SLIDER PARA SELECIONAR</span>}
-      </div>
-    )
   }
 
   const renderWelcome = () => (
@@ -243,6 +246,10 @@ const App = () => {
             <VisualSlider 
               label="Ajuste seu Tom de Pele"
               type="tipo_pele"
+              formData={formData}
+              setFormData={setFormData}
+              showErrors={showErrors}
+              step={step}
               options={[
                 { label: 'Clara', color: '#FDF0E5' },
                 { label: 'Clara-Média', color: '#F7E1D2' },
@@ -267,6 +274,10 @@ const App = () => {
               label="Cor do seu Cabelo"
               type="cor_cabelo"
               trackClass="hair-slider-track"
+              formData={formData}
+              setFormData={setFormData}
+              showErrors={showErrors}
+              step={step}
               options={[
                 { label: 'Branco', color: '#EBEBEB' },
                 { label: 'Loiro', color: '#E8C69F' },
@@ -280,6 +291,10 @@ const App = () => {
               label="Cor dos seus Olhos"
               type="cor_olhos"
               trackClass="eye-slider-track"
+              formData={formData}
+              setFormData={setFormData}
+              showErrors={showErrors}
+              step={step}
               options={[
                 { label: 'Azuis', color: '#638596' },
                 { label: 'Verdes', color: '#5A785A' },
