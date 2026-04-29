@@ -868,8 +868,8 @@ const App = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
                   <div className="badge" style={{ background: '#000', color: '#fff', fontSize: '0.5rem', padding: '4px 12px' }}>ENTREGA IMEDIATA</div>
                 </div>
-                <p style={{ fontSize: '0.8rem', fontWeight: '900', lineHeight: '1.4', color: '#000' }}>
-                  RECEBA IMEDIATAMENTE <br/> VIA EMAIL E WHATSAPP
+                <p style={{ fontSize: '1rem', fontWeight: '900', lineHeight: '1.2', color: '#000', margin: '5px 0' }}>
+                  RECEBA AGORA <br/> IMEDIATAMENTE
                 </p>
               </div>
 
