@@ -112,7 +112,7 @@ const VisualSlider = ({ label, type, options, trackClass, formData, setFormData,
 
         <div className="skin-slider-labels">
           <span>{options[0].label.toUpperCase()}</span>
-          <span style={{ color: 'var(--primary)', fontWeight: '900' }}>{formData[type] || 'AJUSTE'}</span>
+          <span style={{ color: 'var(--primary)', fontWeight: '900', fontSize: '1.2rem' }}>{formData[type] || 'AJUSTE'}</span>
           <span>{options[options.length - 1].label.toUpperCase()}</span>
         </div>
       </div>
@@ -179,7 +179,7 @@ const App = () => {
         <div className="logo" style={{ fontSize: '2.2rem', marginBottom: '10px', display: 'block' }}>
           RENOVA <span>Mulher</span>
         </div>
-        <p style={{ letterSpacing: '2px', fontSize: 'clamp(0.6rem, 2vw, 0.75rem)', marginTop: '10px', color: 'var(--text-muted)', opacity: 0.8 }}>
+        <p style={{ letterSpacing: '2px', fontSize: 'clamp(0.8rem, 2.5vw, 1rem)', marginTop: '10px', color: 'var(--text-muted)', opacity: 0.8 }}>
           INTELIGÊNCIA ARTIFICIAL • DIGITAL LUXURY
         </p>
       </div>
@@ -193,7 +193,7 @@ const App = () => {
       </div>
 
       <button className="btn-primary animate-slide-up" onClick={() => setStep('QUIZ')}>INICIAR MAPA DE BELEZA</button>
-      <p style={{ textAlign: 'center', marginTop: '25px', fontSize: '0.65rem', color: 'var(--text-muted)', letterSpacing: '1px' }}>ESCANEE SEU DNA VISUAL EM 30 SEGUNDOS</p>
+      <p style={{ textAlign: 'center', marginTop: '25px', fontSize: '0.85rem', color: 'var(--text-muted)', letterSpacing: '1px' }}>ESCANEE SEU DNA VISUAL EM 30 SEGUNDOS</p>
     </div>
   )
 
@@ -408,65 +408,62 @@ const App = () => {
 
   const renderProcessing = () => (
     <div className="animate-fade">
-      <div className="card" style={{ padding: '40px 30px', marginTop: '50px', position: 'relative', overflow: 'hidden' }}>
-        {/* NEURAL SCANNER LINE */}
-        <div style={{ 
-          position: 'absolute', 
-          top: 0, 
-          left: 0, 
-          width: '100%', 
-          height: '2px', 
-          background: 'linear-gradient(90deg, transparent, var(--primary), transparent)', 
-          boxShadow: '0 0 15px var(--primary)',
-          zIndex: 10,
-          animation: 'scanner-move 3s infinite ease-in-out'
-        }}></div>
+      <div className="card" style={{ padding: '50px 30px', marginTop: '30px', textAlign: 'center' }}>
+        <div className="badge">SUÍTE DE ALTA PRECISÃO ATIVA</div>
+        <h2 className="serif" style={{ fontSize: '1.8rem', marginBottom: '40px' }}>Análise Bioestética Avançada</h2>
 
-        <div className="badge">SUÍTE DE DIAGNÓSTICO AVANÇADO</div>
-        <h2 style={{ fontSize: '1.4rem', marginBottom: '10px', color: 'var(--primary)', letterSpacing: '1px' }}>{loadingText}</h2>
-        <div style={{ height: '3px', background: 'var(--glass-border)', margin: '25px 0', position: 'relative' }}>
-          <div style={{ position: 'absolute', height: '100%', background: 'var(--primary)', width: `${(analysisStep / 12) * 100}%`, transition: 'all 0.5s', boxShadow: '0 0 15px var(--primary)' }}></div>
+        {/* MODERN HOLOGRAM SCANNER */}
+        <div className="hologram-container">
+          <img src="/hologram_silhouette.png" className="hologram-image" alt="Hologram Scan" />
+          <div className="scanner-line-v2"></div>
+          <div className="hologram-overlay"></div>
+          
+          {/* Biometric Points that appear during scan */}
+          {analysisStep >= 2 && <div className="biometric-point" style={{ top: '15%', left: '48%' }}></div>}
+          {analysisStep >= 4 && <div className="biometric-point" style={{ top: '45%', left: '35%' }}></div>}
+          {analysisStep >= 7 && <div className="biometric-point" style={{ top: '45%', left: '62%' }}></div>}
+          {analysisStep >= 9 && <div className="biometric-point" style={{ top: '75%', left: '42%' }}></div>}
+          {analysisStep >= 11 && <div className="biometric-point" style={{ top: '25%', left: '55%' }}></div>}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', marginTop: '20px' }}>
+        <div className="analysis-label-modern">{loadingText}</div>
+        
+        <div style={{ height: '3px', background: 'rgba(255,255,255,0.05)', margin: '30px 0', position: 'relative', borderRadius: '10px', overflow: 'hidden' }}>
+          <div style={{ 
+            position: 'absolute', 
+            height: '100%', 
+            background: 'linear-gradient(90deg, var(--primary), #fff)', 
+            width: `${(analysisStep / 12) * 100}%`, 
+            transition: 'all 0.5s', 
+            boxShadow: '0 0 15px var(--primary)' 
+          }}></div>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '15px', marginTop: '20px' }}>
           {[
-            { label: 'BIOMETRIA E GEOMETRIA FACIAL', step: 2, icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="1.5" fill="none"><path d="M21 11-8-8-8 8"/><path d="M21 21v-4a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v4"/></svg> },
-            { label: 'COMBINAÇÃO DE PELE E SUBTOM', step: 4, icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="1.5" fill="none"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg> },
-            { label: 'VALORIZAM VS APAGAM (CONTRASTE)', step: 7, icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="1.5" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg> },
-            { label: 'DNA DE ESTILO E ARQUÉTIPOS', step: 9, icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="1.5" fill="none"><path d="M9 12a3 3 0 1 0 6 0 3 3 0 1 0-6 0"/><path d="M2 12h7"/><path d="M15 12h7"/><path d="M12 2v7"/><path d="M12 15v7"/></svg> },
-            { label: 'LOOKS DE ALTO IMPACTO', step: 10, icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="1.5" fill="none"><path d="M12 12h.01"/><path d="M16 6V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><rect x="3" y="6" width="18" height="14" rx="2"/></svg> },
-            { label: 'MAPA CROMÁTICO E PALETA DE PODER', step: 12, icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" strokeWidth="1.5" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Z"/></svg> }
+            { label: 'SIMETRIA', step: 3 },
+            { label: 'PIGMENTAÇÃO', step: 5 },
+            { label: 'ARQUÉTIPOS', step: 8 },
+            { label: 'PROPORÇÃO', step: 11 }
           ].map((item, idx) => (
-            <div key={idx} style={{ opacity: analysisStep >= item.step - 2 ? 1 : 0.2, transition: 'all 0.5s' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.65rem', fontWeight: '900', letterSpacing: '1px' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '10px', color: analysisStep >= item.step ? 'var(--primary)' : '#fff' }}>
-                  <span style={{ display: 'flex', opacity: analysisStep >= item.step ? 1 : 0.4 }}>{item.icon}</span>
-                  {item.label}
-                </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', color: analysisStep >= item.step ? 'var(--primary)' : 'var(--text-muted)', fontSize: '0.55rem' }}>
-                  {analysisStep >= item.step ? (
-                    <>CONCLUÍDO <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" strokeWidth="3" fill="none"><polyline points="20 6 9 17 4 12"/></svg></>
-                  ) : 'PROCESSANDO...'}
-                </span>
-              </div>
-              <div style={{ height: '4px', background: 'rgba(255,255,255,0.03)', borderRadius: '2px', overflow: 'hidden' }}>
-                <div style={{ 
-                  height: '100%', 
-                  background: analysisStep >= item.step ? 'var(--primary)' : 'var(--accent)', 
-                  width: analysisStep >= item.step ? '100%' : (analysisStep >= item.step - 2 ? '65%' : '0%'),
-                  transition: 'all 2s ease-in-out'
-                }}></div>
-              </div>
+            <div key={idx} style={{ 
+              padding: '12px', 
+              background: analysisStep >= item.step ? 'rgba(198, 142, 23, 0.1)' : 'rgba(255,255,255,0.02)', 
+              borderRadius: '12px',
+              border: analysisStep >= item.step ? '1px solid var(--primary)' : '1px solid rgba(255,255,255,0.05)',
+              opacity: analysisStep >= item.step ? 1 : 0.4,
+              transition: 'all 0.4s'
+            }}>
+              <p style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '1px', color: analysisStep >= item.step ? 'var(--primary)' : '#fff' }}>
+                {item.label} {analysisStep >= item.step ? '✓' : ''}
+              </p>
             </div>
           ))}
         </div>
 
-        <div style={{ marginTop: '40px', padding: '20px', background: 'rgba(240, 180, 170, 0.03)', borderRadius: '20px', border: '1px solid rgba(240, 180, 170, 0.1)', textAlign: 'center' }}>
-          <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', fontSize: '0.6rem', color: 'var(--text-muted)', lineHeight: '1.5', fontWeight: '700', letterSpacing: '0.5px' }}>
-            <svg viewBox="0 0 24 24" width="14" height="14" stroke="var(--primary)" strokeWidth="2" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
-            SISTEMA DE ALTA PRECISÃO ATIVO • ANALISANDO 4096 VÉRTICES FACIAIS
-          </p>
-        </div>
+        <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)', marginTop: '40px', letterSpacing: '2px' }}>
+          SISTEMA NEURAL ATIVO • MAPEANDO DNA VISUAL
+        </p>
       </div>
     </div>
   )
@@ -534,12 +531,12 @@ const App = () => {
               <div style={{ padding: '30px' }}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '30px' }}>
                   <div className="card" style={{ padding: '15px', background: 'rgba(255,255,255,0.02)', marginBottom: '0' }}>
-                    <h5 style={{ fontSize: '0.55rem', color: 'var(--primary)', marginBottom: '10px' }}>SIMETRIA ORBITAL</h5>
-                    <p style={{ fontSize: '0.8rem', fontWeight: '800' }}>98.2%</p>
+                    <h5 style={{ fontSize: '0.75rem', color: 'var(--primary)', marginBottom: '10px' }}>SIMETRIA ORBITAL</h5>
+                    <p style={{ fontSize: '1rem', fontWeight: '800' }}>98.2%</p>
                   </div>
                   <div className="card" style={{ padding: '15px', background: 'rgba(255,255,255,0.02)', marginBottom: '0' }}>
-                    <h5 style={{ fontSize: '0.55rem', color: 'var(--primary)', marginBottom: '10px' }}>ÂNGULO MANDIBULAR</h5>
-                    <p style={{ fontSize: '0.8rem', fontWeight: '800' }}>112° (ESTRUTURADO)</p>
+                    <h5 style={{ fontSize: '0.75rem', color: 'var(--primary)', marginBottom: '10px' }}>ÂNGULO MANDIBULAR</h5>
+                    <p style={{ fontSize: '1rem', fontWeight: '800' }}>112° (ESTRUTURADO)</p>
                   </div>
                 </div>
 
@@ -552,7 +549,7 @@ const App = () => {
                   ].map((f, i) => (
                     <div key={i} style={{ textAlign: 'center', padding: '10px 5px', borderRadius: '12px', border: f.active ? '1px solid var(--primary)' : '1px solid var(--glass-border)', background: f.active ? 'rgba(240, 180, 170, 0.1)' : 'transparent', opacity: f.active ? 1 : 0.4 }}>
                       <div style={{ color: f.active ? 'var(--primary)' : '#fff', marginBottom: '8px', display: 'flex', justifyContent: 'center' }}>{f.icon}</div>
-                      <p style={{ fontSize: '0.5rem', fontWeight: '900', color: f.active ? 'var(--primary)' : '#fff' }}>{f.label}</p>
+                      <p style={{ fontSize: '0.7rem', fontWeight: '900', color: f.active ? 'var(--primary)' : '#fff' }}>{f.label}</p>
                     </div>
                   ))}
                 </div>
@@ -575,7 +572,7 @@ const App = () => {
             </div>
 
             <div className="card animate-slide-up" style={{ padding: '30px' }}>
-              <h4 style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '2px', marginBottom: '25px', textAlign: 'center' }}>TESTE DE TEMPERATURA: {diagnostic.undertone}</h4>
+              <h4 style={{ fontSize: '0.9rem', color: 'var(--primary)', letterSpacing: '2px', marginBottom: '25px', textAlign: 'center' }}>TESTE DE TEMPERATURA: {diagnostic.undertone}</h4>
               
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '35px' }}>
                 {[
@@ -585,7 +582,7 @@ const App = () => {
                 ].map((s, i) => (
                   <div key={i} style={{ textAlign: 'center', opacity: s.active ? 1 : 0.2 }}>
                     <div style={{ width: '100%', paddingTop: '100%', borderRadius: '50%', background: `linear-gradient(45deg, ${s.colors[0]}, ${s.colors[1]})`, marginBottom: '10px', border: s.active ? '3px solid var(--primary)' : 'none', boxShadow: s.active ? '0 0 15px var(--primary-glow)' : 'none' }}></div>
-                    <p style={{ fontSize: '0.6rem', fontWeight: '900' }}>{s.label} {s.active ? '✓' : ''}</p>
+                    <p style={{ fontSize: '0.8rem', fontWeight: '900' }}>{s.label} {s.active ? '✓' : ''}</p>
                   </div>
                 ))}
               </div>
@@ -611,16 +608,16 @@ const App = () => {
               </div>
 
               <div className="card" style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', marginBottom: '30px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
-                <h5 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '15px', textAlign: 'center', letterSpacing: '2px' }}>ANÁLISE DE REATIVIDADE DERMAL</h5>
+                <h5 style={{ fontSize: '0.8rem', color: 'var(--primary)', marginBottom: '15px', textAlign: 'center', letterSpacing: '2px' }}>ANÁLISE DE REATIVIDADE DERMAL</h5>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
                   <div>
-                    <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginBottom: '5px' }}>UNIFORMIZAÇÃO</p>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '5px' }}>UNIFORMIZAÇÃO</p>
                     <div style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px' }}>
                       <div style={{ height: '100%', background: 'var(--primary)', width: '88%', borderRadius: '2px' }}></div>
                     </div>
                   </div>
                   <div>
-                    <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginBottom: '5px' }}>CONTROLE DE PIGMENTAÇÃO</p>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '5px' }}>CONTROLE DE PIGMENTAÇÃO</p>
                     <div style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px' }}>
                       <div style={{ height: '100%', background: 'var(--primary)', width: '92%', borderRadius: '2px' }}></div>
                     </div>
@@ -630,14 +627,14 @@ const App = () => {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' }}>
                 <div style={{ background: 'rgba(255,0,0,0.03)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(255,0,0,0.1)' }}>
-                  <h6 style={{ fontSize: '0.6rem', color: '#ff4d4d', marginBottom: '8px' }}>REAÇÃO NEGATIVA</h6>
-                  <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
+                  <h6 style={{ fontSize: '0.8rem', color: '#ff4d4d', marginBottom: '8px' }}>REAÇÃO NEGATIVA</h6>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
                     Tons {diagnostic.undertone === 'QUENTE' ? 'Prateados' : 'Dourados'} projetam sombras nas linhas de expressão e olheiras.
                   </p>
                 </div>
                 <div style={{ background: 'rgba(0,255,0,0.03)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(0,255,0,0.1)' }}>
-                  <h6 style={{ fontSize: '0.6rem', color: '#4dff4d', marginBottom: '8px' }}>REAÇÃO POSITIVA</h6>
-                  <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
+                  <h6 style={{ fontSize: '0.8rem', color: '#4dff4d', marginBottom: '8px' }}>REAÇÃO POSITIVA</h6>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
                     O {diagnostic.undertone === 'QUENTE' ? 'Ouro' : 'Prata'} traz luminosidade imediata e efeito de "pele descansada".
                   </p>
                 </div>
@@ -660,24 +657,24 @@ const App = () => {
                 <div className="card" style={{ padding: '0', overflow: 'hidden', border: '1px solid var(--primary)' }}>
                   <img src="/makeup_free_analysis.png" style={{ width: '100%', height: '350px', objectFit: 'cover' }} />
                   <div style={{ padding: '20px', background: 'rgba(0,0,0,0.8)' }}>
-                    <h5 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>ESTRATÉGIA DERMAL PERSONALIZADA</h5>
+                    <h5 style={{ fontSize: '0.8rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>ESTRATÉGIA DERMAL PERSONALIZADA</h5>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                       <div style={{ textAlign: 'center' }}>
-                        <p style={{ fontSize: '0.4rem', fontWeight: '900', color: 'var(--text-muted)' }}>BASE / SKIN</p>
-                        <p style={{ fontSize: '0.55rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Glow / Peach' : 'Mate / Rose'}</p>
+                        <p style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--text-muted)' }}>BASE / SKIN</p>
+                        <p style={{ fontSize: '0.75rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Glow / Peach' : 'Mate / Rose'}</p>
                       </div>
                       <div style={{ textAlign: 'center' }}>
-                        <p style={{ fontSize: '0.4rem', fontWeight: '900', color: 'var(--text-muted)' }}>BATOM / LIPS</p>
-                        <p style={{ fontSize: '0.55rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Terracota' : 'Malva'}</p>
+                        <p style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--text-muted)' }}>BATOM / LIPS</p>
+                        <p style={{ fontSize: '0.75rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Terracota' : 'Malva'}</p>
                       </div>
                       <div style={{ textAlign: 'center' }}>
-                        <p style={{ fontSize: '0.4rem', fontWeight: '900', color: 'var(--text-muted)' }}>BLUSH</p>
-                        <p style={{ fontSize: '0.55rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Coral' : 'Rosado'}</p>
+                        <p style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--text-muted)' }}>BLUSH</p>
+                        <p style={{ fontSize: '0.75rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Coral' : 'Rosado'}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '15px', lineHeight: '1.5' }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center', marginTop: '15px', lineHeight: '1.5' }}>
                   Com base no seu <strong>Subtom {diagnostic.undertone}</strong>, evite pigmentos de subfundo {diagnostic.undertone === 'QUENTE' ? 'acinzentado' : 'alaranjado'} em corretivos para não criar o efeito de "pele cansada".
                 </p>
               </div>
@@ -692,111 +689,124 @@ const App = () => {
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <div className="badge">ETAPA 03 • INTELIGÊNCIA CROMÁTICA</div>
               <h2 className="serif" style={{ fontSize: '2.2rem', textTransform: 'none' }}>Sua Matriz de Poder</h2>
-              <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', letterSpacing: '2px', marginTop: '10px' }}>ANÁLISE DE PIGMENTAÇÃO NÍVEL 04</p>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', letterSpacing: '2px', marginTop: '10px' }}>ANÁLISE DE PIGMENTAÇÃO NÍVEL 04</p>
             </div>
 
-            {/* PALETA DE PODER REFINADA */}
-            <div className="card animate-slide-up" style={{ padding: '30px', marginBottom: '20px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+            {/* MODERN TECHNOLOGICAL PALETTE ANALYSIS */}
+            <div className="card animate-slide-up" style={{ padding: '0', overflow: 'hidden', marginBottom: '20px' }}>
+              <div style={{ padding: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--glass-border)' }}>
                 <div>
-                  <h4 style={{ fontSize: '0.75rem', color: 'var(--primary)', letterSpacing: '1px' }}>✦ PALETA: {diagnostic.palette}</h4>
-                  <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginTop: '4px' }}>DNA CROMÁTICO DETECTADO</p>
+                  <h4 style={{ fontSize: '1rem', color: 'var(--primary)', letterSpacing: '1px' }}>✦ PALETA: {diagnostic.palette}</h4>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px' }}>DNA CROMÁTICO DETECTADO</p>
                 </div>
                 <div style={{ padding: '8px 15px', background: 'rgba(198, 142, 23, 0.1)', borderRadius: '8px', border: '1px solid var(--primary)' }}>
-                  <p style={{ fontSize: '0.5rem', fontWeight: '900', color: 'var(--primary)' }}>ALTA PRECISÃO</p>
+                  <p style={{ fontSize: '0.7rem', fontWeight: '900', color: 'var(--primary)' }}>ALTA PRECISÃO</p>
                 </div>
               </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '35px' }}>
-                {[
-                  { c: '#4b5320', n: 'AUTORIDADE', sub: 'Oliva Profundo' }, 
-                  { c: '#004242', n: 'MISTÉRIO', sub: 'Petrol' }, 
-                  { c: '#a0522d', n: 'ESTABILIDADE', sub: 'Siena' }, 
-                  { c: '#c68e17', n: 'SUCESSO', sub: 'Ouro Real' }, 
-                  { c: '#5d4037', n: 'RAÍZES', sub: 'Mocha' }, 
-                  { c: '#8b4513', n: 'VIGOR', sub: 'Terracota' }, 
-                  { c: '#4b0000', n: 'IMPACTO', sub: 'Vinho' }, 
-                  { c: '#1a1a1a', n: 'ABSOLUTO', sub: 'Onix' }
-                ].map((item, i) => (
-                  <div key={i} style={{ textAlign: 'center' }}>
-                    <div style={{ width: '100%', paddingTop: '100%', borderRadius: '12px', background: item.c, boxShadow: '0 8px 20px rgba(0,0,0,0.4)', marginBottom: '8px', border: '1px solid rgba(255,255,255,0.05)' }}></div>
-                    <p style={{ fontSize: '0.45rem', fontWeight: '900', color: 'var(--primary)' }}>{item.n}</p>
-                    <p style={{ fontSize: '0.35rem', color: 'var(--text-muted)', marginTop: '2px' }}>{item.sub}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
-                <h5 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '10px' }}>OBJETIVO DE COMUNICAÇÃO</h5>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-main)', lineHeight: '1.7' }}>
-                  {formData.nome}, sua paleta <strong>{diagnostic.palette}</strong> foi selecionada para projetar {diagnostic.undertone === 'QUENTE' ? 'calor, segurança e autoridade natural' : 'distanciamento elegante, foco e alta sofisticação'}. Estas cores reduzem sombras faciais e elevam sua presença em qualquer ambiente.
-                </p>
-              </div>
-            </div>
-
-            {/* NEW TOPIC: ESTRATÉGIA DE CONTRASTE Pessoal */}
-            <div className="card animate-slide-up" style={{ padding: '30px', marginBottom: '20px' }}>
-              <h4 style={{ fontSize: '0.75rem', color: 'var(--primary)', letterSpacing: '2px', marginBottom: '30px', textAlign: 'center' }}>ESTRATÉGIA DE CONTRASTE</h4>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ height: '80px', background: 'linear-gradient(45deg, #000 50%, #fff 50%)', borderRadius: '12px', marginBottom: '10px', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontSize: '0.5rem', fontWeight: '900', background: 'rgba(0,0,0,0.8)', padding: '2px 8px', borderRadius: '4px' }}>ALTO</span>
-                  </div>
-                </div>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ height: '80px', background: 'linear-gradient(45deg, #666 50%, #888 50%)', borderRadius: '12px', marginBottom: '10px', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontSize: '0.5rem', fontWeight: '900', background: 'rgba(0,0,0,0.8)', padding: '2px 8px', borderRadius: '4px' }}>BAIXO</span>
-                  </div>
-                </div>
+              <div style={{ position: 'relative' }}>
+                <img src="/chromatic_dna_tech.png" style={{ width: '100%', height: 'auto', maxHeight: '400px', objectFit: 'cover' }} alt="Chromatic DNA Tech" />
+                <div className="scanner-line-v2"></div>
               </div>
 
-              <div style={{ position: 'relative', height: '10px', background: 'linear-gradient(to right, #fff, #888, #000)', borderRadius: '5px', marginBottom: '40px' }}>
-                <div style={{ position: 'absolute', top: '-15px', left: diagnostic.contrast === 'ALTO' ? '85%' : (diagnostic.contrast === 'MÉDIO' ? '50%' : '15%'), transition: 'all 1.5s ease' }}>
-                  <div style={{ background: 'var(--primary)', color: '#000', padding: '4px 10px', borderRadius: '4px', fontSize: '0.5rem', fontWeight: '900', position: 'relative', transform: 'translateX(-50%)' }}>
-                    SEU ÍNDICE: {diagnostic.contrast}
-                    <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%)', width: 0, height: 0, borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '5px solid var(--primary)' }}></div>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '20px', borderRadius: '15px', borderLeft: '3px solid var(--primary)' }}>
-                <h6 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '8px' }}>DIRETRIZ TÉCNICA:</h6>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-main)', lineHeight: '1.6' }}>
-                  {diagnostic.contrast === 'ALTO' 
-                    ? "Sua beleza suporta cores puras e opostas. Use o preto e branco para criar um impacto visual imediato."
-                    : "Sua beleza é valorizada pela suavidade. Evite cortes bruscos de cor e prefira tons que se fundem."}
-                </p>
-              </div>
-            </div>
-
-            {/* VISAGISMO CAPILAR REFINADO COM GRID DE FIGURAS */}
-            <div className="card animate-slide-up" style={{ padding: '0', overflow: 'hidden' }}>
-              <div style={{ padding: '25px', textAlign: 'center', borderBottom: '1px solid var(--glass-border)' }}>
-                <h4 style={{ fontSize: '0.75rem', color: 'var(--primary)', letterSpacing: '2px' }}>DESIGN CAPILAR E MOLDURA</h4>
-              </div>
               <div style={{ padding: '30px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px', marginBottom: '30px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '35px' }}>
                   {[
-                    { label: 'CURTO', rec: diagnostic.faceShape === 'OVAL' ? 'POSSÍVEL' : 'EVITAR', img: "/hair_short.png" },
-                    { label: 'MÉDIO', rec: 'IDEAL', img: "/hair_medium.png" },
-                    { label: 'LONGO', rec: diagnostic.faceShape === 'OVAL' ? 'IDEAL' : 'POSSÍVEL', img: "/hair_long.png" }
-                  ].map((s, i) => (
+                    { c: '#4b5320', n: 'AUTORIDADE', sub: 'Oliva Profundo' }, 
+                    { c: '#004242', n: 'MISTÉRIO', sub: 'Petrol' }, 
+                    { c: '#a0522d', n: 'ESTABILIDADE', sub: 'Siena' }, 
+                    { c: '#c68e17', n: 'SUCESSO', sub: 'Ouro Real' }, 
+                    { c: '#5d4037', n: 'RAÍZES', sub: 'Mocha' }, 
+                    { c: '#8b4513', n: 'VIGOR', sub: 'Terracota' }, 
+                    { c: '#4b0000', n: 'IMPACTO', sub: 'Vinho' }, 
+                    { c: '#1a1a1a', n: 'ABSOLUTO', sub: 'Onix' }
+                  ].map((item, i) => (
                     <div key={i} style={{ textAlign: 'center' }}>
-                      <div style={{ background: s.rec === 'IDEAL' ? 'rgba(198, 142, 23, 0.1)' : 'rgba(255,255,255,0.02)', padding: '0', overflow: 'hidden', borderRadius: '15px', border: s.rec === 'IDEAL' ? '1px solid var(--primary)' : '1px solid var(--glass-border)', marginBottom: '10px' }}>
-                        <img src={s.img} style={{ width: '100%', height: '120px', objectFit: 'cover', opacity: s.rec === 'EVITAR' ? 0.3 : 1 }} />
-                        <div style={{ padding: '10px 5px' }}>
-                          <p style={{ fontSize: '0.45rem', fontWeight: '900', color: s.rec === 'IDEAL' ? 'var(--primary)' : '#fff' }}>{s.label}</p>
-                          <p style={{ fontSize: '0.35rem', fontWeight: '800', marginTop: '4px', color: s.rec === 'EVITAR' ? '#ff4d4d' : (s.rec === 'IDEAL' ? 'var(--primary)' : 'var(--text-muted)') }}>{s.rec}</p>
-                        </div>
-                      </div>
+                      <div style={{ width: '100%', paddingTop: '100%', borderRadius: '12px', background: item.c, boxShadow: '0 8px 20px rgba(0,0,0,0.4)', marginBottom: '8px', border: '1px solid rgba(255,255,255,0.05)' }}></div>
+                      <p style={{ fontSize: '0.65rem', fontWeight: '900', color: 'var(--primary)' }}>{item.n}</p>
+                      <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginTop: '2px' }}>{item.sub}</p>
                     </div>
                   ))}
                 </div>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', textAlign: 'center', lineHeight: '1.7' }}>
-                  {formData.nome}, a arquitetura <strong>{diagnostic.faceShape}</strong> do seu rosto exige uma moldura que projete autoridade. 
-                  Com seus olhos <strong>{formData.cor_olhos}</strong>, recomendamos {diagnostic.undertone === 'QUENTE' ? 'reflexos mel/dourados' : 'tons frios e profundos'}.
-                </p>
+
+                <div style={{ padding: '25px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
+                  <h5 style={{ fontSize: '0.8rem', color: 'var(--primary)', marginBottom: '10px' }}>OBJETIVO DE COMUNICAÇÃO</h5>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--text-main)', lineHeight: '1.7' }}>
+                    {formData.nome}, sua paleta <strong>{diagnostic.palette}</strong> foi selecionada para projetar {diagnostic.undertone === 'QUENTE' ? 'calor, segurança e autoridade natural' : 'distanciamento elegante, foco e alta sofisticação'}. Estas cores reduzem sombras faciais e elevam sua presença em qualquer ambiente.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* MODERN TECHNOLOGICAL CONTRASTE STRATEGY */}
+            <div className="card animate-slide-up" style={{ padding: '0', overflow: 'hidden', marginBottom: '20px' }}>
+              <div style={{ padding: '25px', textAlign: 'center', borderBottom: '1px solid var(--glass-border)' }}>
+                <h4 style={{ fontSize: '1rem', color: 'var(--primary)', letterSpacing: '2px' }}>ESTRATÉGIA DE CONTRASTE</h4>
+              </div>
+              
+              <div style={{ position: 'relative' }}>
+                <img src="/contrast_analysis_tech.png" style={{ width: '100%', height: 'auto', maxHeight: '400px', objectFit: 'cover' }} alt="Contrast Tech Analysis" />
+                <div className="scanner-line-v2"></div>
+                <div style={{ position: 'absolute', top: '15px', right: '15px', padding: '8px 15px', background: 'rgba(0,0,0,0.8)', borderRadius: '8px', border: '1px solid var(--primary)' }}>
+                  <p style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--primary)' }}>SISTEMA DE CORRELAÇÃO ATIVO</p>
+                </div>
+              </div>
+
+              <div style={{ padding: '30px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '25px' }}>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
+                    <p style={{ fontSize: '0.5rem', color: 'var(--primary)', marginBottom: '5px' }}>ÍNDICE DETECTADO</p>
+                    <p style={{ fontSize: '1rem', fontWeight: '900' }}>{diagnostic.contrast}</p>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
+                    <p style={{ fontSize: '0.5rem', color: 'var(--primary)', marginBottom: '5px' }}>REATIVIDADE</p>
+                    <p style={{ fontSize: '1rem', fontWeight: '900' }}>ALTA PRECISÃO</p>
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(198, 142, 23, 0.05)', padding: '25px', borderRadius: '20px', borderLeft: '4px solid var(--primary)' }}>
+                  <h6 style={{ fontSize: '0.8rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>DIRETRIZ TÉCNICA:</h6>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--text-main)', lineHeight: '1.7', fontWeight: '500' }}>
+                    {diagnostic.contrast === 'ALTO' 
+                      ? "Sua beleza suporta cores puras e opostas. Use o preto e branco para criar um impacto visual imediato."
+                      : "Sua beleza é valorizada pela suavidade. Evite cortes bruscos de cor e prefira tons que se fundem."}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* MODERN TECHNOLOGICAL HAIR & VISAGISM */}
+            <div className="card animate-slide-up" style={{ padding: '0', overflow: 'hidden' }}>
+              <div style={{ padding: '25px', textAlign: 'center', borderBottom: '1px solid var(--glass-border)' }}>
+                <h4 style={{ fontSize: '1rem', color: 'var(--primary)', letterSpacing: '2px' }}>DESIGN CAPILAR E MOLDURA</h4>
+              </div>
+              
+              <div style={{ position: 'relative' }}>
+                <img src="/hair_visagism_tech.png" style={{ width: '100%', height: 'auto', maxHeight: '450px', objectFit: 'cover' }} alt="Hair Visagism Tech Analysis" />
+                <div className="scanner-line-v2"></div>
+                <div style={{ position: 'absolute', bottom: '15px', left: '15px', padding: '8px 15px', background: 'rgba(0,0,0,0.8)', borderRadius: '8px', border: '1px solid var(--primary)' }}>
+                  <p style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--primary)' }}>MAPEAMENTO DE VISAGISMO ATIVO</p>
+                </div>
+              </div>
+
+              <div style={{ padding: '30px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '25px' }}>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
+                    <p style={{ fontSize: '0.5rem', color: 'var(--primary)', marginBottom: '5px' }}>ARQUITETURA FACIAL</p>
+                    <p style={{ fontSize: '1rem', fontWeight: '900' }}>{diagnostic.faceShape}</p>
+                  </div>
+                  <div style={{ background: 'rgba(255,255,255,0.02)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
+                    <p style={{ fontSize: '0.5rem', color: 'var(--primary)', marginBottom: '5px' }}>RECOMENDAÇÃO</p>
+                    <p style={{ fontSize: '1rem', fontWeight: '900' }}>AUTORIDADE</p>
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(198, 142, 23, 0.05)', padding: '25px', borderRadius: '20px', borderRight: '4px solid var(--primary)' }}>
+                  <p style={{ fontSize: '0.95rem', color: 'var(--text-main)', lineHeight: '1.7', textAlign: 'center' }}>
+                    {formData.nome}, a arquitetura <strong>{diagnostic.faceShape}</strong> do seu rosto exige uma moldura que projete autoridade. 
+                    Com seus olhos <strong>{formData.cor_olhos}</strong>, recomendamos <strong>{diagnostic.undertone === 'QUENTE' ? 'reflexos mel/dourados' : 'tons frios e profundos'}</strong>.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -843,8 +853,8 @@ const App = () => {
                   <div key={idx} className={`stagger-${idx + 1} shimmer-card`} style={{ display: 'flex', gap: '20px', alignItems: 'start', padding: '15px', background: 'rgba(255,255,255,0.02)', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.05)' }}>
                     <span style={{ color: 'var(--primary)', animation: 'float 4s ease-in-out infinite', animationDelay: `${idx * 0.5}s` }}>{item.icon}</span>
                     <div>
-                      <h4 style={{ fontSize: '0.65rem', color: '#fff', marginBottom: '4px' }}>{item.title}</h4>
-                      <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>{item.desc}</p>
+                      <h4 style={{ fontSize: '0.85rem', color: '#fff', marginBottom: '4px' }}>{item.title}</h4>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{item.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -859,37 +869,37 @@ const App = () => {
                 <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
                   <img src="/dossier_preview.png" style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
                   <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 01: DOSSIÊ EDITORIAL PERSONALIZADO (PDF)</p>
+                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 01: DOSSIÊ EDITORIAL PERSONALIZADO (PDF)</p>
                   </div>
                 </div>
                 <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
                   <img src="/spreadsheet_preview.png" style={{ width: '100%', height: '350px', objectFit: 'cover' }} />
                   <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 02: PLANEJAMENTO DE GUARDA-ROUPA CÁPSULA</p>
+                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 02: PLANEJAMENTO DE GUARDA-ROUPA CÁPSULA</p>
                   </div>
                 </div>
                 <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                  <img src="/makeup_preview.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
+                  <img src="/makeup_analysis_pt.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
                   <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 03: LABORATÓRIO DE BELEZA E MAKEUP</p>
+                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 03: LABORATÓRIO DE BELEZA E MAKEUP</p>
                   </div>
                 </div>
                 <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                  <img src="/accessories_preview.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
+                  <img src="/accessories_analysis_pt.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
                   <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 04: DESIGN DE ACESSÓRIOS E ÓCULOS</p>
+                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 04: DESIGN DE ACESSÓRIOS E ÓCULOS</p>
                   </div>
                 </div>
                 <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
                   <img src="/color_dna_preview.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
                   <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 05: MAPA DE DNA CROMÁTICO E PALETA ESTENDIDA</p>
+                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 05: MAPA DE DNA CROMÁTICO E PALETA ESTENDIDA</p>
                   </div>
                 </div>
                 <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
                   <img src="/roadmap_preview.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
                   <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 06: CRONOGRAMA ANUAL DE TRANSFORMAÇÃO</p>
+                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 06: CRONOGRAMA ANUAL DE TRANSFORMAÇÃO</p>
                   </div>
                 </div>
               </div>
