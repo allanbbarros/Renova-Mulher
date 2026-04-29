@@ -14,6 +14,10 @@ const App = () => {
   })
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [step, quizStep, resultStep])
+
+  useEffect(() => {
     if (step === 'PROCESSING') {
       const themes = [
         'Iniciando Bioestatística Facial...',
