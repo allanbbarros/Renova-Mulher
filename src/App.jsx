@@ -51,16 +51,116 @@ const App = () => {
       setUserPhotos(prev => ({ ...prev, [type]: url }))
     }
   }
+  const SkinIcon = ({ color }) => (
+    <svg viewBox="0 0 100 100" width="55" height="55">
+      <path d="M50 15c-15 0-25 10-25 25 0 15 10 25 25 25s25-10 25-25c0-15-10-25-25-25z" fill={color} style={{ transition: 'fill 0.4s ease' }} />
+      <path d="M50 70c-20 0-35 10-35 25h70c0-15-15-25-35-25z" fill={color} opacity="0.6" style={{ transition: 'fill 0.4s ease' }} />
+    </svg>
+  )
+
+  const HairIcon = ({ color }) => (
+    <svg viewBox="0 0 100 100" width="70" height="70">
+      {/* Cabelo Longo Editorial */}
+      <path d="M50 5C20 5 8 25 8 50c0 25-5 45-5 45h20c5-10 10-15 27-15s22 5 27 15h20c0 0-5-20-5-45C92 25 80 5 50 5z" fill={color} opacity="0.4" style={{ transition: 'fill 0.4s ease' }} />
+      <path d="M50 10C30 10 15 30 15 55c0 20-3 35-3 35h15c3-10 8-15 23-15s20 5 23 15h15s-3-15-3-35c0-25-15-45-35-45z" fill={color} style={{ transition: 'fill 0.4s ease' }} />
+      {/* Detalhes de mechas longas */}
+      <path d="M30 40c-2 15-2 35 0 45" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+      <path d="M70 40c2 15 2 35 0 45" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+
+  const EyeIcon = ({ color }) => (
+    <svg viewBox="0 0 100 100" width="60" height="60">
+      <path d="M10 50C10 50 30 25 50 25C70 25 90 50 90 50C90 50 70 75 50 75C30 75 10 50 10 50Z" fill="#fff" opacity="0.9"/>
+      <circle cx="50" cy="50" r="18" fill={color} style={{ transition: 'fill 0.4s ease' }} />
+      <circle cx="50" cy="50" r="8" fill="#000" />
+      <circle cx="56" cy="44" r="3" fill="#fff" opacity="0.6" />
+    </svg>
+  )
+
+  const VisualSlider = ({ label, type, options, trackClass }) => {
+    const [localValue, setLocalValue] = useState(0)
+    
+    // Inicializar localValue baseado no formData atual
+    useEffect(() => {
+      const idx = options.findIndex(t => t.label === formData[type])
+      if (idx !== -1) setLocalValue((idx / (options.length - 1)) * 1000)
+    }, [step])
+
+    const interpolateColor = (val) => {
+      const factor = val / 1000
+      const segmentSize = 1 / (options.length - 1)
+      const segmentIndex = Math.min(Math.floor(factor / segmentSize), options.length - 2)
+      const localFactor = (factor - (segmentIndex * segmentSize)) / segmentSize
+      
+      const c1 = options[segmentIndex].color
+      const c2 = options[segmentIndex + 1].color
+      
+      // Helper to parse hex and interpolate
+      const r1 = parseInt(c1.substring(1,3), 16)
+      const g1 = parseInt(c1.substring(3,5), 16)
+      const b1 = parseInt(c1.substring(5,7), 16)
+      
+      const r2 = parseInt(c2.substring(1,3), 16)
+      const g2 = parseInt(c2.substring(3,5), 16)
+      const b2 = parseInt(c2.substring(5,7), 16)
+      
+      const r = Math.round(r1 + (r2 - r1) * localFactor)
+      const g = Math.round(g1 + (g2 - g1) * localFactor)
+      const b = Math.round(b1 + (b2 - b1) * localFactor)
+      
+      return `rgb(${r}, ${g}, ${b})`
+    }
+
+    const handleSliderChange = (e) => {
+      const val = parseInt(e.target.value)
+      setLocalValue(val)
+      
+      // Mapear valor para o label mais próximo para salvar no estado global
+      const idx = Math.round((val / 1000) * (options.length - 1))
+      if (formData[type] !== options[idx].label) {
+        setFormData({...formData, [type]: options[idx].label})
+      }
+    }
+
+    return (
+      <div className={`input-group ${showErrors && !formData[type] ? 'invalid shake' : ''}`}>
+        <label className="label-futuristic">{label}</label>
+        <div className="skin-slider-container">
+          <div className="skin-slider-preview" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(198,142,23,0.1)' }}>
+            {type === 'tipo_pele' && <SkinIcon color={interpolateColor(localValue)} />}
+            {type === 'cor_cabelo' && <HairIcon color={interpolateColor(localValue)} />}
+            {type === 'cor_olhos' && <EyeIcon color={interpolateColor(localValue)} />}
+          </div>
+          <input 
+            type="range" 
+            min="0" 
+            max="1000" 
+            step="1"
+            value={localValue}
+            className={`skin-slider-track ${trackClass || ''}`}
+            onInput={handleSliderChange}
+          />
+          <div className="skin-slider-labels">
+            <span>{options[0].label.toUpperCase()}</span>
+            <span style={{ color: 'var(--primary)', fontWeight: '900' }}>{formData[type] || 'AJUSTE'}</span>
+            <span>{options[options.length - 1].label.toUpperCase()}</span>
+          </div>
+        </div>
+        {showErrors && !formData[type] && <span className="error-text">AJUSTE O SLIDER PARA SELECIONAR</span>}
+      </div>
+    )
+  }
 
   const renderWelcome = () => (
     <div className="animate-fade">
       <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '40px' }}>
         <div className="badge">BIOMETRIA • COR • ESSÊNCIA</div>
-        <h1>
-          INTELIGÊNCIA <br/> <span className="serif" style={{ color: 'var(--primary)', textTransform: 'none' }}>Digital Luxury</span>
-        </h1>
-        <p style={{ letterSpacing: '2px', fontSize: 'clamp(0.6rem, 2vw, 0.75rem)', marginTop: '20px', color: 'var(--text-muted)', opacity: 0.8 }}>
-          O FUTURO DA SUA IMAGEM COMEÇA AGORA
+        <div className="logo" style={{ fontSize: '2.2rem', marginBottom: '10px', display: 'block' }}>
+          RENOVA <span>Mulher</span>
+        </div>
+        <p style={{ letterSpacing: '2px', fontSize: 'clamp(0.6rem, 2vw, 0.75rem)', marginTop: '10px', color: 'var(--text-muted)', opacity: 0.8 }}>
+          INTELIGÊNCIA ARTIFICIAL • DIGITAL LUXURY
         </p>
       </div>
       
@@ -103,7 +203,7 @@ const App = () => {
       <div className="animate-fade">
         <div style={{ marginBottom: '30px' }}>
           <div className="badge">PASSO {quizStep} DE 2</div>
-          <h2>{quizStep === 1 ? 'Sua Identidade' : 'Seu Perfil Visual'}</h2>
+            <h2 className="serif" style={{ textTransform: 'none' }}>{quizStep === 1 ? 'Sua Identidade' : 'Seu Perfil Visual'}</h2>
           <div className="progress-bar" style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginTop: '15px' }}>
             <div className="progress-fill" style={{ height: '100%', background: 'var(--primary)', width: `${quizStep === 1 ? '50%' : '100%'}`, transition: 'width 0.5s', borderRadius: '2px' }}></div>
           </div>
@@ -123,13 +223,18 @@ const App = () => {
               </div>
               {showErrors && !formData.idade_faixa && <span className="error-text">SELECIONE SUA IDADE</span>}
             </div>
-            <div className={`input-group ${showErrors && !formData.tipo_pele ? 'invalid shake' : ''}`}>
-              <label className="label-futuristic">Tipo de Pele</label>
-              <div className="chip-grid">
-                {['Clara', 'Média', 'Escura'].map(v => <button key={v} type="button" className={`chip ${formData.tipo_pele === v ? 'active' : ''}`} onClick={() => setFormData({...formData, tipo_pele: v})}>{v}</button>)}
-              </div>
-              {showErrors && !formData.tipo_pele && <span className="error-text">SELECIONE SEU TIPO DE PELE</span>}
-            </div>
+            <VisualSlider 
+              label="Ajuste seu Tom de Pele"
+              type="tipo_pele"
+              options={[
+                { label: 'Clara', color: '#FDF0E5' },
+                { label: 'Clara-Média', color: '#F7E1D2' },
+                { label: 'Média', color: '#E9C8B1' },
+                { label: 'Média-Escura', color: '#D3A387' },
+                { label: 'Escura', color: '#9D6E50' },
+                { label: 'Profunda', color: '#5C3C2A' }
+              ]}
+            />
             <div className={`input-group ${showErrors && !formData.ouro_ou_prata ? 'invalid shake' : ''}`}>
               <label className="label-futuristic">Metal Predominante</label>
               <div className="chip-grid">
@@ -141,20 +246,30 @@ const App = () => {
           </>
         ) : (
           <>
-            <div className={`input-group ${showErrors && !formData.cor_cabelo ? 'invalid shake' : ''}`}>
-              <label className="label-futuristic">Cor do Cabelo</label>
-              <div className="chip-grid">
-                {['Loiro', 'Castanho', 'Preto', 'Ruivo'].map(v => <button key={v} type="button" className={`chip ${formData.cor_cabelo === v ? 'active' : ''}`} onClick={() => setFormData({...formData, cor_cabelo: v})}>{v}</button>)}
-              </div>
-              {showErrors && !formData.cor_cabelo && <span className="error-text">SELECIONE A COR DO CABELO</span>}
-            </div>
-            <div className={`input-group ${showErrors && !formData.cor_olhos ? 'invalid shake' : ''}`}>
-              <label className="label-futuristic">Cor dos Olhos</label>
-              <div className="chip-grid">
-                {['Castanhos', 'Azuis', 'Verdes', 'Mel'].map(v => <button key={v} type="button" className={`chip ${formData.cor_olhos === v ? 'active' : ''}`} onClick={() => setFormData({...formData, cor_olhos: v})}>{v}</button>)}
-              </div>
-              {showErrors && !formData.cor_olhos && <span className="error-text">SELECIONE A COR DOS OLHOS</span>}
-            </div>
+            <VisualSlider 
+              label="Cor do seu Cabelo"
+              type="cor_cabelo"
+              trackClass="hair-slider-track"
+              options={[
+                { label: 'Branco', color: '#EBEBEB' },
+                { label: 'Loiro', color: '#E8C69F' },
+                { label: 'Ruivo', color: '#B87333' },
+                { label: 'Vermelho', color: '#910000' },
+                { label: 'Castanho', color: '#5D4037' },
+                { label: 'Preto', color: '#1A1A1A' }
+              ]}
+            />
+            <VisualSlider 
+              label="Cor dos seus Olhos"
+              type="cor_olhos"
+              trackClass="eye-slider-track"
+              options={[
+                { label: 'Azuis', color: '#638596' },
+                { label: 'Verdes', color: '#5A785A' },
+                { label: 'Mel', color: '#A68D60' },
+                { label: 'Castanhos', color: '#3E2723' }
+              ]}
+            />
             <button className="btn-primary" onClick={handleNext}>Continuar</button>
           </>
         )}
@@ -178,7 +293,7 @@ const App = () => {
       <div className="animate-fade">
         <div style={{ marginBottom: '30px' }}>
           <div className="badge">SCAN VISUAL</div>
-          <h2>Documentação <br/> <span className="serif" style={{ textTransform: 'none' }}>Bioestética</span></h2>
+          <h2 className="serif" style={{ textTransform: 'none' }}>Documentação <br/> Bioestética</h2>
           <p style={{ fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', color: 'var(--text-muted)', marginTop: '10px' }}>Carregue uma selfie frontal com iluminação natural para precisão técnica.</p>
         </div>
         
@@ -202,17 +317,50 @@ const App = () => {
   }
 
   const getDiagnostic = () => {
-    const isWarm = formData.ouro_ou_prata === 'Ouro'
-    const isNeutral = formData.ouro_ou_prata === 'Ambos'
+    const { tipo_pele, cor_cabelo, cor_olhos, ouro_ou_prata } = formData
     
+    // Lógica Simplificada de Análise Sazonal (Colorimetria)
+    const isWarm = ouro_ou_prata === 'Ouro'
+    const isNeutral = ouro_ou_prata === 'Ambos'
+    const isDarkHair = ['Preto', 'Castanho', 'Vermelho'].includes(cor_cabelo)
+    const isLightSkin = ['Clara', 'Clara-Média'].includes(tipo_pele)
+    
+    let palette = 'VERÃO SUAVE'
+    let reasoning = ''
+    let contrast = 'MÉDIO'
+
+    if (isWarm) {
+      if (isDarkHair) {
+        palette = 'OUTONO PROFUNDO'
+        reasoning = "A profundidade dos seus cabelos e o subtom quente da sua pele exigem cores terrosas e intensas para harmonia."
+      } else {
+        palette = 'PRIMAVERA QUENTE'
+        reasoning = "Sua combinação de traços iluminados e subtom dourado pede cores vibrantes e claras que tragam viço."
+      }
+    } else if (isNeutral) {
+      palette = 'OUTONO SUAVE'
+      reasoning = "Seu equilíbrio entre tons frios e quentes permite uma transição elegante por cores opacas e sofisticadas."
+    } else {
+      if (isDarkHair && isLightSkin) {
+        palette = 'INVERNO BRILHANTE'
+        reasoning = "Seu alto contraste entre pele clara e cabelos escuros pede cores puras e intensas para não apagar sua beleza."
+      } else {
+        palette = 'VERÃO FRIO'
+        reasoning = "Seus traços delicados e subtom rosado/azulado exigem cores pastéis e frias para suavizar a textura da pele."
+      }
+    }
+
+    // Contraste
+    if (isLightSkin && isDarkHair) contrast = 'ALTO'
+    else if (!isLightSkin && !isDarkHair) contrast = 'BAIXO'
+    else contrast = 'MÉDIO'
+
     return {
       faceShape: formData.idade_faixa === '18-25' ? 'DIAMANTE' : (formData.idade_faixa === '26-35' ? 'OVAL' : 'QUADRADO'),
       undertone: isWarm ? 'QUENTE' : (isNeutral ? 'NEUTRO' : 'FRIO'),
-      contrast: formData.cor_cabelo === 'Loiro' ? 'MÉDIO-BAIXO' : 'MÉDIO-ALTO',
-      palette: isWarm ? 'OUTONO PROFUNDO' : (isNeutral ? 'VERÃO SUAVE' : 'INVERNO BRILHANTE'),
-      reasoning: isWarm 
-        ? "Sua pele possui pigmentos amarelados que reagem melhor a metais dourados, trazendo viço imediato."
-        : "Sua pele possui pigmentos rosados/azulados, o que exige tons frios para neutralizar manchas e olheiras."
+      contrast,
+      palette,
+      reasoning
     }
   }
 
@@ -284,6 +432,7 @@ const App = () => {
   )
 
   const renderResultPartial = () => {
+    const diagnostic = getDiagnostic();
     const nextResult = () => {
       setResultStep(prev => prev + 1)
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -302,7 +451,7 @@ const App = () => {
           <div className="animate-fade">
             <div style={{ textAlign: 'center', marginBottom: '30px' }}>
               <div className="badge">ETAPA 01 • GEOMETRIA FACIAL</div>
-              <h1>DNA <br/> DE <span className="serif">Impacto</span></h1>
+              <h1 className="serif" style={{ textTransform: 'none' }}>DNA de <span className="primary-color">Impacto</span></h1>
               <p style={{ letterSpacing: '2px', fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '10px' }}>MAPEAMENTO BIOMÉTRICO AVANÇADO</p>
             </div>
 
@@ -310,9 +459,36 @@ const App = () => {
               <div style={{ position: 'relative' }}>
                 <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: 'auto', maxHeight: '500px', objectFit: 'cover' }} />
                 <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }} viewBox="0 0 100 100">
-                  <path d="M30 40 L50 30 L70 40 L70 70 L50 85 L30 70 Z" fill="none" stroke="var(--primary)" strokeWidth="0.5" strokeDasharray="2 2" opacity="0.5" />
-                  <line x1="30" y1="40" x2="70" y2="40" stroke="var(--primary)" strokeWidth="0.2" opacity="0.5" />
-                  <line x1="50" y1="30" x2="50" y2="85" stroke="var(--primary)" strokeWidth="0.2" opacity="0.5" />
+                  {/* FACE MESH / MOLDE DO ROSTO */}
+                  <g stroke="var(--primary)" strokeWidth="0.2" opacity="0.6">
+                    {/* Linhas principais de estrutura */}
+                    <path d="M50 25 L35 35 L30 55 L35 75 L50 85 L65 75 L70 55 L65 35 Z" fill="none" strokeDasharray="1 1" />
+                    <path d="M35 35 L65 35 M30 55 L70 55 M35 75 L65 75" strokeWidth="0.1" opacity="0.3" />
+                    <line x1="50" y1="25" x2="50" y2="85" strokeWidth="0.1" opacity="0.4" />
+                    
+                    {/* Triangulação Biométrica */}
+                    <path d="M50 45 L38 48 L50 60 L62 48 Z" fill="rgba(198, 142, 23, 0.05)" />
+                    <line x1="38" y1="48" x2="62" y2="48" strokeWidth="0.1" />
+                    <line x1="50" y1="25" x2="38" y2="48" strokeWidth="0.1" />
+                    <line x1="50" y1="25" x2="62" y2="48" strokeWidth="0.1" />
+                    <line x1="38" y1="48" x2="30" y2="55" strokeWidth="0.1" />
+                    <line x1="62" y1="48" x2="70" y2="55" strokeWidth="0.1" />
+                    
+                    {/* Vértices (Pontos brilhantes) */}
+                    {[
+                      [50, 25], [35, 35], [65, 35], [30, 55], [70, 55], 
+                      [35, 75], [65, 75], [50, 85], [38, 48], [62, 48], [50, 60]
+                    ].map(([x, y], i) => (
+                      <circle key={i} cx={x} cy={y} r="0.5" fill="var(--primary)">
+                        <animate attributeName="opacity" values="0.3;1;0.3" dur={`${2 + i % 3}s`} repeatCount="indefinite" />
+                      </circle>
+                    ))}
+                  </g>
+                  {/* SCANNER HORIZONTAL SUTIL */}
+                  <line x1="0" y1="0" x2="100" y2="0" stroke="var(--primary)" strokeWidth="0.5" opacity="0.3">
+                    <animate attributeName="y1" from="20" to="90" dur="4s" repeatCount="indefinite" />
+                    <animate attributeName="y2" from="20" to="90" dur="4s" repeatCount="indefinite" />
+                  </line>
                 </svg>
               </div>
               <div style={{ padding: '30px' }}>
@@ -341,8 +517,9 @@ const App = () => {
                   ))}
                 </div>
                 
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
-                  Olá, <strong>{formData.nome || 'Pessoa'}</strong>. Seu rosto possui uma <strong>Arquitetura {diagnostic.faceShape}</strong>. Esta geometria é associada a liderança e sofisticação. O mapeamento biométrico sugere que sua zona de maior impacto é o terço médio facial.
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', lineHeight: '1.7' }}>
+                  {formData.nome}, nossa IA processou seus 4.096 vértices faciais e detectou uma <strong>Arquitetura {diagnostic.faceShape}</strong>. 
+                  Esta geometria é a mais rara entre os arquétipos de sofisticação, exigindo um equilíbrio milimétrico entre luz e sombra que revelaremos no seu Dossiê Completo.
                 </p>
               </div>
             </div>
@@ -350,7 +527,6 @@ const App = () => {
             <button className="btn-primary animate-slide-up" onClick={nextResult}>CONTINUAR ANÁLISE • PRÓXIMA ETAPA</button>
           </div>
         )}
-
         {resultStep === 2 && (
           <div className="animate-fade">
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
@@ -359,13 +535,13 @@ const App = () => {
             </div>
 
             <div className="card animate-slide-up" style={{ padding: '30px' }}>
-              <h4 style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '2px', marginBottom: '25px', textAlign: 'center' }}>REATIVIDADE DERMAL: {diagnostic.undertone}</h4>
+              <h4 style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '2px', marginBottom: '25px', textAlign: 'center' }}>TESTE DE TEMPERATURA: {diagnostic.undertone}</h4>
               
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '35px' }}>
                 {[
-                  { label: 'FRIO', colors: ['#f3cfb3', '#d8a68e'], active: diagnostic.undertone === 'FRIO' },
-                  { label: 'QUENTE', colors: ['#e5c1a7', '#c68e17'], active: diagnostic.undertone === 'QUENTE' },
-                  { label: 'NEUTRO', colors: ['#d2b48c', '#8b4513'], active: diagnostic.undertone === 'NEUTRO' }
+                  { label: 'PRATA', colors: ['#C0C0C0', '#E8E8E8'], active: diagnostic.undertone === 'FRIO' },
+                  { label: 'OURO', colors: ['#C68E17', '#D4AF37'], active: diagnostic.undertone === 'QUENTE' },
+                  { label: 'AMBOS', colors: ['#D2B48C', '#8B4513'], active: diagnostic.undertone === 'NEUTRO' }
                 ].map((s, i) => (
                   <div key={i} style={{ textAlign: 'center', opacity: s.active ? 1 : 0.2 }}>
                     <div style={{ width: '100%', paddingTop: '100%', borderRadius: '50%', background: `linear-gradient(45deg, ${s.colors[0]}, ${s.colors[1]})`, marginBottom: '10px', border: s.active ? '3px solid var(--primary)' : 'none', boxShadow: s.active ? '0 0 15px var(--primary-glow)' : 'none' }}></div>
@@ -374,47 +550,63 @@ const App = () => {
                 ))}
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '15px', marginBottom: '30px' }}>
-                <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '12px' }}>
-                  <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '200px', objectFit: 'cover', filter: 'grayscale(0.6) brightness(0.9) contrast(0.8) sepia(0.2)' }} />
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(255,0,0,0.6)', padding: '5px 10px', borderRadius: '4px', fontSize: '0.5rem', fontWeight: '900' }}>EVITAR: {diagnostic.undertone === 'QUENTE' ? 'CINZAS' : 'DOURADOS'}</div>
+              {/* DIGITAL DRAPING SIMULATION */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '30px' }}>
+                <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '12px', border: '3px solid #C0C0C0' }}>
+                  <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '220px', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.8)', padding: '8px', textAlign: 'center' }}>
+                    <p style={{ fontSize: '0.5rem', fontWeight: '900', color: diagnostic.undertone === 'QUENTE' ? '#ff4d4d' : '#4dff4d' }}>
+                      {diagnostic.undertone === 'QUENTE' ? '🔴 PALIDEZ DERMAL' : '🟢 LUMINOSIDADE'}
+                    </p>
+                  </div>
                 </div>
-                <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '12px', border: '2px solid var(--primary)' }}>
-                  <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '200px', objectFit: 'cover', filter: 'saturate(1.2) contrast(1.1)' }} />
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary)', color: '#000', padding: '5px 10px', borderRadius: '4px', fontSize: '0.5rem', fontWeight: '900' }}>IDEAL: {diagnostic.undertone === 'QUENTE' ? 'QUENTES' : 'FRIOS'}</div>
+                <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '12px', border: '3px solid #C68E17' }}>
+                  <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '220px', objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,0,0,0.8)', padding: '8px', textAlign: 'center' }}>
+                    <p style={{ fontSize: '0.5rem', fontWeight: '900', color: diagnostic.undertone === 'QUENTE' ? '#4dff4d' : '#ff4d4d' }}>
+                      {diagnostic.undertone === 'QUENTE' ? '🟢 VITALIDADE' : '🔴 SOMBRA ACENTUADA'}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div className="card" style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', marginBottom: '30px' }}>
-                <h5 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '15px', textAlign: 'center' }}>MATRIZ DE REAÇÃO (AMOSTRA)</h5>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
-                  {['#FFD700', '#C0C0C0', '#8B4513', '#4682B4'].map((c, i) => (
-                    <div key={i} style={{ textAlign: 'center' }}>
-                      <div style={{ width: '100%', height: '30px', background: c, borderRadius: '4px', marginBottom: '5px' }}></div>
-                      <p style={{ fontSize: '0.4rem', fontWeight: '700' }}>{i%2 === 0 ? 'SIM' : 'NÃO'}</p>
+              <div className="card" style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', marginBottom: '30px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
+                <h5 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '15px', textAlign: 'center', letterSpacing: '2px' }}>ANÁLISE DE REATIVIDADE DERMAL</h5>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                  <div>
+                    <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginBottom: '5px' }}>UNIFORMIZAÇÃO</p>
+                    <div style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px' }}>
+                      <div style={{ height: '100%', background: 'var(--primary)', width: '88%', borderRadius: '2px' }}></div>
                     </div>
-                  ))}
+                  </div>
+                  <div>
+                    <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginBottom: '5px' }}>CONTROLE DE PIGMENTAÇÃO</p>
+                    <div style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px' }}>
+                      <div style={{ height: '100%', background: 'var(--primary)', width: '92%', borderRadius: '2px' }}></div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '15px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '20px' }}>
                 <div style={{ background: 'rgba(255,0,0,0.03)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(255,0,0,0.1)' }}>
-                  <h6 style={{ fontSize: '0.6rem', color: '#ff4d4d', marginBottom: '8px' }}>POR QUE EVITAR?</h6>
+                  <h6 style={{ fontSize: '0.6rem', color: '#ff4d4d', marginBottom: '8px' }}>REAÇÃO NEGATIVA</h6>
                   <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
-                    Tons {diagnostic.undertone === 'QUENTE' ? 'Frios' : 'Quentes'} "apagam" seu rosto, acentuando olheiras e cansaço visual.
+                    Tons {diagnostic.undertone === 'QUENTE' ? 'Prateados' : 'Dourados'} projetam sombras nas linhas de expressão e olheiras.
                   </p>
                 </div>
                 <div style={{ background: 'rgba(0,255,0,0.03)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(0,255,0,0.1)' }}>
-                  <h6 style={{ fontSize: '0.6rem', color: '#4dff4d', marginBottom: '8px' }}>POR QUE É IDEAL?</h6>
+                  <h6 style={{ fontSize: '0.6rem', color: '#4dff4d', marginBottom: '8px' }}>REAÇÃO POSITIVA</h6>
                   <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
-                    Tons {diagnostic.undertone === 'QUENTE' ? 'Dourados' : 'Prateados'} trazem luminosidade e uniformizam seu tom de pele.
+                    O {diagnostic.undertone === 'QUENTE' ? 'Ouro' : 'Prata'} traz luminosidade imediata e efeito de "pele descansada".
                   </p>
                 </div>
               </div>
               
-              <div style={{ background: 'rgba(240, 180, 170, 0.05)', padding: '25px', borderRadius: '24px', border: '1px dashed var(--primary)', marginTop: '20px' }}>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center', lineHeight: '1.6' }}>
-                  {diagnostic.reasoning} Seu diagnóstico de <strong>Contraste {diagnostic.contrast}</strong> confirma que você precisa de intensidade para não ser "apagada" pelas roupas.
+              <div style={{ background: 'rgba(198, 142, 23, 0.05)', padding: '25px', borderRadius: '24px', border: '1px dashed var(--primary)' }}>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', textAlign: 'center', lineHeight: '1.7' }}>
+                  {formData.nome}, com seus olhos <strong>{formData.cor_olhos}</strong> e cabelos <strong>{formData.cor_cabelo}</strong>, o seu <strong>Subtom {diagnostic.undertone}</strong> cria uma assinatura cromática única. 
+                  {diagnostic.reasoning} Seu <strong>Contraste {diagnostic.contrast}</strong> exige intensidade para máxima harmonia visual.
                 </p>
               </div>
 
@@ -459,106 +651,116 @@ const App = () => {
           <div className="animate-fade">
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <div className="badge">ETAPA 03 • INTELIGÊNCIA CROMÁTICA</div>
-              <h2 className="serif" style={{ fontSize: '2.2rem', textTransform: 'none' }}>Sua Paleta de Poder</h2>
+              <h2 className="serif" style={{ fontSize: '2.2rem', textTransform: 'none' }}>Sua Matriz de Poder</h2>
               <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', letterSpacing: '2px', marginTop: '10px' }}>ANÁLISE DE PIGMENTAÇÃO NÍVEL 04</p>
             </div>
 
-            {/* PALETA DE 12 CORES TÉCNICA */}
-            <div className="card animate-slide-up" style={{ padding: '30px' }}>
+            {/* PALETA DE PODER REFINADA */}
+            <div className="card animate-slide-up" style={{ padding: '30px', marginBottom: '20px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-                <h4 style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '1px' }}>✦ MATRIZ: {diagnostic.palette}</h4>
-                <div style={{ display: 'flex', gap: '5px' }}>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--primary)' }}></div>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }}></div>
-                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' }}></div>
+                <div>
+                  <h4 style={{ fontSize: '0.75rem', color: 'var(--primary)', letterSpacing: '1px' }}>✦ PALETA: {diagnostic.palette}</h4>
+                  <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)', marginTop: '4px' }}>DNA CROMÁTICO DETECTADO</p>
+                </div>
+                <div style={{ padding: '8px 15px', background: 'rgba(198, 142, 23, 0.1)', borderRadius: '8px', border: '1px solid var(--primary)' }}>
+                  <p style={{ fontSize: '0.5rem', fontWeight: '900', color: 'var(--primary)' }}>ALTA PRECISÃO</p>
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(65px, 1fr))', gap: '12px', marginBottom: '35px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '35px' }}>
                 {[
-                  { c: '#4b5320', n: 'AUTORIDADE' }, { c: '#004242', n: 'MISTÉRIO' }, 
-                  { c: '#a0522d', n: 'ESTABILIDADE' }, { c: '#c68e17', n: 'PROSPERIDADE' }, 
-                  { c: '#5d4037', n: 'TERRA' }, { c: '#8b4513', n: 'VIGOR' }, 
-                  { c: '#4b0000', n: 'PAIXÃO' }, { c: '#2f4f4f', n: 'FOCO' }, 
-                  { c: '#1a1a1a', n: 'ABSOLUTO' }, { c: '#cfb53b', n: 'LUZ' }, 
-                  { c: '#e5c1a7', n: 'ZEN' }, { c: '#d8a68e', n: 'PAZ' }
+                  { c: '#4b5320', n: 'AUTORIDADE', sub: 'Oliva Profundo' }, 
+                  { c: '#004242', n: 'MISTÉRIO', sub: 'Petrol' }, 
+                  { c: '#a0522d', n: 'ESTABILIDADE', sub: 'Siena' }, 
+                  { c: '#c68e17', n: 'SUCESSO', sub: 'Ouro Real' }, 
+                  { c: '#5d4037', n: 'RAÍZES', sub: 'Mocha' }, 
+                  { c: '#8b4513', n: 'VIGOR', sub: 'Terracota' }, 
+                  { c: '#4b0000', n: 'IMPACTO', sub: 'Vinho' }, 
+                  { c: '#1a1a1a', n: 'ABSOLUTO', sub: 'Onix' }
                 ].map((item, i) => (
                   <div key={i} style={{ textAlign: 'center' }}>
                     <div style={{ width: '100%', paddingTop: '100%', borderRadius: '12px', background: item.c, boxShadow: '0 8px 20px rgba(0,0,0,0.4)', marginBottom: '8px', border: '1px solid rgba(255,255,255,0.05)' }}></div>
                     <p style={{ fontSize: '0.45rem', fontWeight: '900', color: 'var(--primary)' }}>{item.n}</p>
+                    <p style={{ fontSize: '0.35rem', color: 'var(--text-muted)', marginTop: '2px' }}>{item.sub}</p>
                   </div>
                 ))}
               </div>
 
-              {/* TEMPERATURE GAUGE */}
-              <div style={{ marginBottom: '30px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.5rem', fontWeight: '900', marginBottom: '10px', letterSpacing: '1px' }}>
-                  <span>FRIO (CROMADO)</span>
-                  <span>QUENTE (DORÉ)</span>
-                </div>
-                <div style={{ height: '4px', background: 'linear-gradient(90deg, #4682B4, #D2B48C, #C68E17)', borderRadius: '2px', position: 'relative' }}>
-                  <div style={{ 
-                    position: 'absolute', 
-                    top: '-6px', 
-                    left: diagnostic.undertone === 'QUENTE' ? '85%' : (diagnostic.undertone === 'NEUTRO' ? '50%' : '15%'),
-                    width: '14px', 
-                    height: '14px', 
-                    background: '#fff', 
-                    borderRadius: '50%', 
-                    border: '3px solid var(--primary)',
-                    boxShadow: '0 0 10px var(--primary)',
-                    transition: 'all 1s ease-in-out'
-                  }}></div>
-                </div>
-              </div>
-              
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '15px' }}>
-                <div className="card" style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', marginBottom: '0', border: '1px solid rgba(255,255,255,0.03)' }}>
-                  <h6 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>METAIS</h6>
-                  <p style={{ fontSize: '0.7rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Ouro / Cobre' : 'Prata / Ouro Branco'}</p>
-                </div>
-                <div className="card" style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', marginBottom: '0', border: '1px solid rgba(255,255,255,0.03)' }}>
-                  <h6 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>TEXTURAS</h6>
-                  <p style={{ fontSize: '0.7rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Linho / Seda' : 'Lã Fria / Couro'}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* VISAGISMO CAPILAR */}
-            <div className="card animate-slide-up" style={{ padding: '0', overflow: 'hidden', marginTop: '20px' }}>
-              <div style={{ padding: '25px', textAlign: 'center', borderBottom: '1px solid var(--glass-border)' }}>
-                <h4 style={{ fontSize: '0.75rem', color: 'var(--primary)', letterSpacing: '2px' }}>DESIGN CAPILAR E MOLDURA FACIAL</h4>
-              </div>
-              
-              <div style={{ position: 'relative' }}>
-                <img src="/hair_visagism.png" style={{ width: '100%', height: '320px', objectFit: 'cover', opacity: 0.8 }} />
-                <div style={{ position: 'absolute', bottom: '20px', left: 0, width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', textAlign: 'center', padding: '0 15px' }}>
-                  {['DNA CURTO', 'DNA MÉDIO', 'DNA LONGO'].map((t, i) => (
-                    <div key={i}><p style={{ fontSize: '0.45rem', fontWeight: '900', color: '#000', background: 'rgba(255,255,255,0.85)', display: 'inline-block', padding: '3px 10px', borderRadius: '4px', letterSpacing: '1px' }}>{t}</p></div>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ padding: '30px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px', marginBottom: '25px' }}>
-                  {[
-                    { label: 'CURTO', rec: 'EVITAR', sub: 'DESEQUILÍBRIO' },
-                    { label: 'MÉDIO', rec: 'IDEAL', sub: 'HARMONIZA' },
-                    { label: 'LONGO', rec: 'POSSÍVEL', sub: 'FLUIDEZ' }
-                  ].map((s, i) => (
-                    <div key={i} style={{ textAlign: 'center', background: s.rec === 'IDEAL' ? 'rgba(240, 180, 170, 0.1)' : 'rgba(255,255,255,0.02)', padding: '15px 5px', borderRadius: '15px', border: s.rec === 'IDEAL' ? '1px solid var(--primary)' : '1px solid var(--glass-border)' }}>
-                      <p style={{ fontSize: '0.5rem', fontWeight: '900', color: s.rec === 'IDEAL' ? 'var(--primary)' : '#fff', letterSpacing: '1px' }}>{s.label}</p>
-                      <p style={{ fontSize: '0.4rem', fontWeight: '800', marginTop: '4px', color: s.rec === 'EVITAR' ? '#ff4d4d' : (s.rec === 'IDEAL' ? 'var(--primary)' : 'var(--text-muted)') }}>{s.rec}</p>
-                    </div>
-                  ))}
-                </div>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center', lineHeight: '1.7' }}>
-                  A arquitetura do seu rosto <strong>{diagnostic.faceShape}</strong> exige uma moldura que suavize ângulos e projete autoridade. Recomendamos {diagnostic.undertone === 'QUENTE' ? 'reflexos mel/dourados' : 'tons frios e profundos'} para máxima vitalidade dermal.
+              <div style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', borderRadius: '20px', border: '1px solid rgba(198, 142, 23, 0.1)' }}>
+                <h5 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '10px' }}>OBJETIVO DE COMUNICAÇÃO</h5>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-main)', lineHeight: '1.7' }}>
+                  {formData.nome}, sua paleta <strong>{diagnostic.palette}</strong> foi selecionada para projetar {diagnostic.undertone === 'QUENTE' ? 'calor, segurança e autoridade natural' : 'distanciamento elegante, foco e alta sofisticação'}. Estas cores reduzem sombras faciais e elevam sua presença em qualquer ambiente.
                 </p>
               </div>
             </div>
 
-            <button className="btn-primary animate-slide-up" onClick={nextResult}>REVELAR LOOKBOOK E DOSSIÊ FINAL</button>
+            {/* NEW TOPIC: ESTRATÉGIA DE CONTRASTE Pessoal */}
+            <div className="card animate-slide-up" style={{ padding: '30px', marginBottom: '20px' }}>
+              <h4 style={{ fontSize: '0.75rem', color: 'var(--primary)', letterSpacing: '2px', marginBottom: '30px', textAlign: 'center' }}>ESTRATÉGIA DE CONTRASTE</h4>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ height: '80px', background: 'linear-gradient(45deg, #000 50%, #fff 50%)', borderRadius: '12px', marginBottom: '10px', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '0.5rem', fontWeight: '900', background: 'rgba(0,0,0,0.8)', padding: '2px 8px', borderRadius: '4px' }}>ALTO</span>
+                  </div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ height: '80px', background: 'linear-gradient(45deg, #666 50%, #888 50%)', borderRadius: '12px', marginBottom: '10px', border: '1px solid var(--glass-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <span style={{ fontSize: '0.5rem', fontWeight: '900', background: 'rgba(0,0,0,0.8)', padding: '2px 8px', borderRadius: '4px' }}>BAIXO</span>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ position: 'relative', height: '10px', background: 'linear-gradient(to right, #fff, #888, #000)', borderRadius: '5px', marginBottom: '40px' }}>
+                <div style={{ position: 'absolute', top: '-15px', left: diagnostic.contrast === 'ALTO' ? '85%' : (diagnostic.contrast === 'MÉDIO' ? '50%' : '15%'), transition: 'all 1.5s ease' }}>
+                  <div style={{ background: 'var(--primary)', color: '#000', padding: '4px 10px', borderRadius: '4px', fontSize: '0.5rem', fontWeight: '900', position: 'relative', transform: 'translateX(-50%)' }}>
+                    SEU ÍNDICE: {diagnostic.contrast}
+                    <div style={{ position: 'absolute', bottom: '-5px', left: '50%', transform: 'translateX(-50%)', width: 0, height: 0, borderLeft: '5px solid transparent', borderRight: '5px solid transparent', borderTop: '5px solid var(--primary)' }}></div>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ background: 'rgba(255,255,255,0.02)', padding: '20px', borderRadius: '15px', borderLeft: '3px solid var(--primary)' }}>
+                <h6 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '8px' }}>DIRETRIZ TÉCNICA:</h6>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-main)', lineHeight: '1.6' }}>
+                  {diagnostic.contrast === 'ALTO' 
+                    ? "Sua beleza suporta cores puras e opostas. Use o preto e branco para criar um impacto visual imediato."
+                    : "Sua beleza é valorizada pela suavidade. Evite cortes bruscos de cor e prefira tons que se fundem."}
+                </p>
+              </div>
+            </div>
+
+            {/* VISAGISMO CAPILAR REFINADO COM GRID DE FIGURAS */}
+            <div className="card animate-slide-up" style={{ padding: '0', overflow: 'hidden' }}>
+              <div style={{ padding: '25px', textAlign: 'center', borderBottom: '1px solid var(--glass-border)' }}>
+                <h4 style={{ fontSize: '0.75rem', color: 'var(--primary)', letterSpacing: '2px' }}>DESIGN CAPILAR E MOLDURA</h4>
+              </div>
+              <div style={{ padding: '30px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px', marginBottom: '30px' }}>
+                  {[
+                    { label: 'CURTO', rec: diagnostic.faceShape === 'OVAL' ? 'POSSÍVEL' : 'EVITAR', img: "/hair_short.png" },
+                    { label: 'MÉDIO', rec: 'IDEAL', img: "/hair_medium.png" },
+                    { label: 'LONGO', rec: diagnostic.faceShape === 'OVAL' ? 'IDEAL' : 'POSSÍVEL', img: "/hair_long.png" }
+                  ].map((s, i) => (
+                    <div key={i} style={{ textAlign: 'center' }}>
+                      <div style={{ background: s.rec === 'IDEAL' ? 'rgba(198, 142, 23, 0.1)' : 'rgba(255,255,255,0.02)', padding: '0', overflow: 'hidden', borderRadius: '15px', border: s.rec === 'IDEAL' ? '1px solid var(--primary)' : '1px solid var(--glass-border)', marginBottom: '10px' }}>
+                        <img src={s.img} style={{ width: '100%', height: '120px', objectFit: 'cover', opacity: s.rec === 'EVITAR' ? 0.3 : 1 }} />
+                        <div style={{ padding: '10px 5px' }}>
+                          <p style={{ fontSize: '0.45rem', fontWeight: '900', color: s.rec === 'IDEAL' ? 'var(--primary)' : '#fff' }}>{s.label}</p>
+                          <p style={{ fontSize: '0.35rem', fontWeight: '800', marginTop: '4px', color: s.rec === 'EVITAR' ? '#ff4d4d' : (s.rec === 'IDEAL' ? 'var(--primary)' : 'var(--text-muted)') }}>{s.rec}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', textAlign: 'center', lineHeight: '1.7' }}>
+                  {formData.nome}, a arquitetura <strong>{diagnostic.faceShape}</strong> do seu rosto exige uma moldura que projete autoridade. 
+                  Com seus olhos <strong>{formData.cor_olhos}</strong>, recomendamos {diagnostic.undertone === 'QUENTE' ? 'reflexos mel/dourados' : 'tons frios e profundos'}.
+                </p>
+              </div>
+            </div>
+
+            <button className="btn-primary animate-slide-up" style={{ marginTop: '30px' }} onClick={nextResult}>REVELAR LOOKBOOK E DOSSIÊ FINAL</button>
           </div>
         )}
 
@@ -567,16 +769,23 @@ const App = () => {
             <div style={{ textAlign: 'center', marginBottom: '50px' }}>
               <div className="badge" style={{ background: 'var(--primary)', color: '#000' }}>DEMONSTRAÇÃO CONCLUÍDA</div>
               <h2 className="serif" style={{ fontSize: '2.5rem', textTransform: 'none', lineHeight: '1.1', marginTop: '15px' }}>Bem-vindo ao <br/> <span style={{ color: 'var(--primary)' }}>Futuro da Imagem</span></h2>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '20px', lineHeight: '1.6', maxWidth: '80%', margin: '20px auto 0' }}>
-                O que você viu até aqui foi apenas 5% da capacidade de processamento do nosso sistema. Portais de moda e blogs de tecnologia já nos citam como a maior revolução estética da década.
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-main)', marginTop: '20px', lineHeight: '1.7', maxWidth: '90%', margin: '20px auto 0' }}>
+                {formData.nome}, o que você viu até aqui foi apenas 5% da capacidade de processamento do nosso sistema. 
+                Sua combinação única de <strong>{formData.cor_olhos}</strong>, cabelos <strong>{formData.cor_cabelo}</strong> e pele <strong>{formData.tipo_pele}</strong> gerou um diagnóstico de alta complexidade que precisa ser explorado em profundidade no seu Dossiê Final.
               </p>
             </div>
 
             {/* SOCIAL PROOF / MEDIA */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', opacity: 0.5, marginBottom: '50px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '2px' }}>NOTÍCIAS VOGUE</span>
-              <span style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '2px' }}>MODA TECNOLÓGICA</span>
-              <span style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '2px' }}>ESTILO DIGITAL</span>
+            <div style={{ padding: '40px 0', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '40px' }}>
+              <div className="footer-media" style={{ opacity: 0.6 }}>
+                <span className="media-label">VOGUE</span>
+                <span className="media-label">GLAMOUR</span>
+                <span className="media-label">ELLE</span>
+              </div>
+              <div className="footer-media" style={{ opacity: 0.3, marginTop: '20px', gap: '30px' }}>
+                <span style={{ fontSize: '0.5rem', fontWeight: '900', letterSpacing: '2px' }}>MODA TECNOLÓGICA</span>
+                <span style={{ fontSize: '0.5rem', fontWeight: '900', letterSpacing: '2px' }}>ESTILO DIGITAL</span>
+              </div>
             </div>
 
             <div className="card animate-slide-up" style={{ padding: '30px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
@@ -591,8 +800,8 @@ const App = () => {
                   { title: 'ESTRATÉGIA DE ACESSÓRIOS', desc: 'Design de joias e óculos para sua geometria facial.', icon: <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" strokeWidth="2" fill="none"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg> },
                   { title: 'CRONOGRAMA DE TRANSFORMAÇÃO', desc: 'Roadmap de 12 meses para elevar sua autoridade visual.', icon: <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" strokeWidth="2" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> }
                 ].map((item, idx) => (
-                  <div key={idx} style={{ display: 'flex', gap: '20px', alignItems: 'start', padding: '15px', background: 'rgba(255,255,255,0.02)', borderRadius: '15px' }}>
-                    <span style={{ color: 'var(--primary)' }}>{item.icon}</span>
+                  <div key={idx} className={`stagger-${idx + 1} shimmer-card`} style={{ display: 'flex', gap: '20px', alignItems: 'start', padding: '15px', background: 'rgba(255,255,255,0.02)', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <span style={{ color: 'var(--primary)', animation: 'float 4s ease-in-out infinite', animationDelay: `${idx * 0.5}s` }}>{item.icon}</span>
                     <div>
                       <h4 style={{ fontSize: '0.65rem', color: '#fff', marginBottom: '4px' }}>{item.title}</h4>
                       <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)' }}>{item.desc}</p>
@@ -631,6 +840,18 @@ const App = () => {
                     <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 04: DESIGN DE ACESSÓRIOS E ÓCULOS</p>
                   </div>
                 </div>
+                <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
+                  <img src="/color_dna_preview.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
+                  <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
+                    <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 05: MAPA DE DNA CROMÁTICO E PALETA ESTENDIDA</p>
+                  </div>
+                </div>
+                <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
+                  <img src="/roadmap_preview.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
+                  <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
+                    <p style={{ fontSize: '0.55rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 06: CRONOGRAMA ANUAL DE TRANSFORMAÇÃO</p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -649,7 +870,7 @@ const App = () => {
                 </p>
               </div>
 
-              <button className="btn-primary" style={{ background: '#000', color: '#fff', fontSize: '1.1rem', padding: '20px', width: '100%', boxShadow: '0 15px 30px rgba(0,0,0,0.3)' }} onClick={() => window.location.href = 'https://pay.hotmart.com/exemplo'}>
+              <button className="btn-primary btn-pulse" style={{ background: '#000', color: '#fff', fontSize: '1.1rem', padding: '20px', width: '100%', boxShadow: '0 15px 30px rgba(0,0,0,0.3)' }} onClick={() => window.location.href = 'https://pay.hotmart.com/exemplo'}>
                 QUERO MEU DOSSIÊ AGORA
               </button>
               
@@ -659,8 +880,8 @@ const App = () => {
               </p>
             </div>
 
-            <div style={{ textAlign: 'center', padding: '40px 0' }}>
-              <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)', letterSpacing: '1px' }}>© 2026 IA DIGITAL LUXURY • TODOS OS DIREITOS RESERVADOS</p>
+            <div style={{ textAlign: 'center', padding: '20px 0' }}>
+              <p style={{ fontSize: '0.5rem', color: 'var(--text-muted)', letterSpacing: '1px', opacity: 0.5 }}>AGUARDANDO FINALIZAÇÃO DO PAGAMENTO...</p>
             </div>
           </div>
         )}
@@ -670,12 +891,19 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <div className="main-layout">
+      <div className="main-layout" style={{ paddingTop: '0' }}>
         {step === 'WELCOME' && renderWelcome()}
         {step === 'QUIZ' && renderQuiz()}
         {step === 'PHOTOS' && renderPhotos()}
         {step === 'PROCESSING' && renderProcessing()}
         {step === 'RESULT_PARTIAL' && renderResultPartial()}
+        
+        {/* Floating Background Particles */}
+        <div className="particles-container" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}>
+          {[...Array(15)].map((_, i) => (
+            <div key={i} className="floating-particle" style={{ left: `${Math.random() * 100}%`, '--dur': `${10 + Math.random() * 15}s`, animationDelay: `${Math.random() * 5}s` }}></div>
+          ))}
+        </div>
       </div>
     </div>
   )
