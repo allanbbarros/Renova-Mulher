@@ -836,70 +836,45 @@ const App = () => {
               </div>
             </div>
 
-            <div className="card animate-slide-up" style={{ padding: '30px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
-              <h3 style={{ fontSize: '1rem', color: 'var(--primary)', marginBottom: '25px', textAlign: 'center' }}>O QUE VOCÊ VAI RECEBER NO DOSSIÊ ABSOLUTO:</h3>
+            <div className="card animate-slide-up" style={{ padding: '25px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <h3 style={{ fontSize: '0.8rem', color: 'var(--primary)', marginBottom: '20px', textAlign: 'center', letterSpacing: '2px' }}>O QUE VOCÊ VAI RECEBER:</h3>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '15px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 {[
-                  { title: 'MAIS DE 4.000 PONTOS DE ANÁLISE', desc: 'Cruzamento biométrico milimétrico de simetria e proporção.', icon: <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" strokeWidth="2" fill="none"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg> },
-                  { title: 'DOSSIÊ EDITORIAL (50+ PÁGINAS)', desc: 'Seu livro pessoal de estilo em PDF de alta resolução.', icon: <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" strokeWidth="2" fill="none"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
-                  { title: 'PLANILHA DE ARMÁRIO CÁPSULA', desc: 'Guia prático de compras e combinações inteligentes.', icon: <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" strokeWidth="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg> },
-                  { title: 'DNA CROMÁTICO COMPLETO', desc: 'Paleta estendida com 60+ cores e guia de maquiagem.', icon: <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" strokeWidth="2" fill="none"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.92 0 1.5-.58 1.5-1.5 0-.43-.17-.83-.44-1.14-.24-.28-.36-.64-.36-1.02 0-.74.6-1.34 1.34-1.34H16c3.31 0 6-2.69 6-6 0-4.97-4.48-9-10-9z"/></svg> },
-                  { title: 'ESTRATÉGIA DE ACESSÓRIOS', desc: 'Design de joias e óculos para sua geometria facial.', icon: <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" strokeWidth="2" fill="none"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg> },
-                  { title: 'CRONOGRAMA DE TRANSFORMAÇÃO', desc: 'Roadmap de 12 meses para elevar sua autoridade visual.', icon: <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--primary)" strokeWidth="2" fill="none"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> }
+                  { title: '4.000+ PONTOS', icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--primary)" strokeWidth="2.5" fill="none"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg> },
+                  { title: '50+ PÁGINAS', icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--primary)" strokeWidth="2.5" fill="none"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> },
+                  { title: 'ARMÁRIO CÁPSULA', icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--primary)" strokeWidth="2.5" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg> },
+                  { title: 'DNA CROMÁTICO', icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--primary)" strokeWidth="2.5" fill="none"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 0-10 10c0 5.5 4.5 10 10 10s10-4.5 10-10S17.5 2 12 2z"/><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg> },
+                  { title: 'ACESSÓRIOS', icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--primary)" strokeWidth="2.5" fill="none"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg> },
+                  { title: 'ROADMAP 12M', icon: <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--primary)" strokeWidth="2.5" fill="none"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/><path d="M8 2v4"/><path d="M16 2v4"/></svg> }
                 ].map((item, idx) => (
-                  <div key={idx} className={`stagger-${idx + 1} shimmer-card`} style={{ display: 'flex', gap: '20px', alignItems: 'start', padding: '15px', background: 'rgba(255,255,255,0.02)', borderRadius: '15px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                    <span style={{ color: 'var(--primary)', animation: 'float 4s ease-in-out infinite', animationDelay: `${idx * 0.5}s` }}>{item.icon}</span>
-                    <div>
-                      <h4 style={{ fontSize: '0.85rem', color: '#fff', marginBottom: '4px' }}>{item.title}</h4>
-                      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{item.desc}</p>
-                    </div>
+                  <div key={idx} className={`stagger-${idx + 1}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '15px 10px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.03)', textAlign: 'center' }}>
+                    <span style={{ color: 'var(--primary)' }}>{item.icon}</span>
+                    <h4 style={{ fontSize: '0.6rem', color: '#fff', fontWeight: '900', letterSpacing: '1px' }}>{item.title}</h4>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* PREVIEW IMAGES STACK - MAX READABILITY */}
-            <div style={{ marginTop: '40px' }}>
-              <h4 style={{ fontSize: '0.7rem', color: 'var(--primary)', textAlign: 'center', letterSpacing: '2px', marginBottom: '30px' }}>VISUALIZAÇÃO DA ENTREGA COMPLETA</h4>
+            <div style={{ marginTop: '30px' }}>
+              <h4 style={{ fontSize: '0.6rem', color: 'var(--primary)', textAlign: 'center', letterSpacing: '2px', marginBottom: '20px', opacity: 0.6 }}>PRÉVIA DO CONTEÚDO</h4>
               
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', marginBottom: '50px' }}>
-                <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                  <img src="/dossier_preview.png" style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
-                  <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 01: DOSSIÊ EDITORIAL PERSONALIZADO (PDF)</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '40px' }}>
+                {[
+                  { img: '/dossier_preview.png', label: 'EDITORAIS' },
+                  { img: '/spreadsheet_preview.png', label: 'CÁPSULA' },
+                  { img: '/makeup_analysis_pt.png', label: 'BELEZA' },
+                  { img: '/accessories_analysis_pt.png', label: 'DESIGN' },
+                  { img: '/color_dna_preview.png', label: 'PALETAS' },
+                  { img: '/roadmap_preview.png', label: 'METAS' }
+                ].map((item, idx) => (
+                  <div key={idx} className="card" style={{ padding: '0', overflow: 'hidden', marginBottom: '0', borderRadius: '12px' }}>
+                    <img src={item.img} style={{ width: '100%', height: '120px', objectFit: 'cover' }} />
+                    <div style={{ padding: '8px', textAlign: 'center', background: 'rgba(0,0,0,0.8)' }}>
+                      <p style={{ fontSize: '0.5rem', fontWeight: '900', letterSpacing: '1px' }}>{item.label}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                  <img src="/spreadsheet_preview.png" style={{ width: '100%', height: '350px', objectFit: 'cover' }} />
-                  <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 02: PLANEJAMENTO DE GUARDA-ROUPA CÁPSULA</p>
-                  </div>
-                </div>
-                <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                  <img src="/makeup_analysis_pt.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
-                  <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 03: LABORATÓRIO DE BELEZA E MAKEUP</p>
-                  </div>
-                </div>
-                <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                  <img src="/accessories_analysis_pt.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
-                  <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 04: DESIGN DE ACESSÓRIOS E ÓCULOS</p>
-                  </div>
-                </div>
-                <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                  <img src="/color_dna_preview.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
-                  <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 05: MAPA DE DNA CROMÁTICO E PALETA ESTENDIDA</p>
-                  </div>
-                </div>
-                <div className="card" style={{ padding: '0', overflow: 'hidden' }}>
-                  <img src="/roadmap_preview.png" style={{ width: '100%', height: '450px', objectFit: 'cover' }} />
-                  <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
-                    <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>AMOSTRA 06: CRONOGRAMA ANUAL DE TRANSFORMAÇÃO</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
