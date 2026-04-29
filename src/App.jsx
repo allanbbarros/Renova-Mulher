@@ -864,9 +864,12 @@ const App = () => {
               <h2 className="serif" style={{ fontSize: 'clamp(2rem, 10vw, 2.8rem)', fontWeight: '900', marginBottom: '5px', color: '#000' }}>R$ 14,90</h2>
               <p style={{ fontSize: '0.75rem', fontWeight: '700', textDecoration: 'line-through', opacity: 0.6, marginBottom: '25px' }}>VALOR ORIGINAL: R$ 149,90</p>
               
-              <div style={{ background: 'rgba(0,0,0,0.05)', padding: '15px', borderRadius: '15px', marginBottom: '25px' }}>
-                <p style={{ fontSize: '0.7rem', fontWeight: '900', lineHeight: '1.4' }}>
-                  RECEBA IMEDIATAMENTE VIA EMAIL E WHATSAPP
+              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '15px', borderRadius: '20px', marginBottom: '25px', border: '1px solid rgba(0,0,0,0.1)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginBottom: '8px' }}>
+                  <div className="badge" style={{ background: '#000', color: '#fff', fontSize: '0.5rem', padding: '4px 12px' }}>ENTREGA IMEDIATA</div>
+                </div>
+                <p style={{ fontSize: '0.8rem', fontWeight: '900', lineHeight: '1.4', color: '#000' }}>
+                  RECEBA IMEDIATAMENTE <br/> VIA EMAIL E WHATSAPP
                 </p>
               </div>
 
