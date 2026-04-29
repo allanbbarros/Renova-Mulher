@@ -251,11 +251,15 @@ const App = () => {
               showErrors={showErrors}
               step={step}
               options={[
-                { label: 'Clara', color: '#FDF0E5' },
+                { label: 'Pálida', color: '#FFF5F0' },
+                { label: 'Clara Rosada', color: '#FDF0E5' },
+                { label: 'Clara Dourada', color: '#F9E4D0' },
                 { label: 'Clara-Média', color: '#F7E1D2' },
-                { label: 'Média', color: '#E9C8B1' },
+                { label: 'Média Neutra', color: '#F0D1BC' },
+                { label: 'Média Quente', color: '#E9C8B1' },
                 { label: 'Média-Escura', color: '#D3A387' },
                 { label: 'Escura', color: '#9D6E50' },
+                { label: 'Muito Escura', color: '#7B4F37' },
                 { label: 'Profunda', color: '#5C3C2A' }
               ]}
             />
@@ -279,12 +283,16 @@ const App = () => {
               showErrors={showErrors}
               step={step}
               options={[
-                { label: 'Branco', color: '#EBEBEB' },
-                { label: 'Loiro', color: '#E8C69F' },
+                { label: 'Platina', color: '#F5F5F5' },
+                { label: 'Loiro Acinzentado', color: '#D2B48C' },
+                { label: 'Loiro Mel', color: '#E3B778' },
+                { label: 'Loiro Dourado', color: '#E8C69F' },
                 { label: 'Ruivo', color: '#B87333' },
-                { label: 'Vermelho', color: '#910000' },
-                { label: 'Castanho', color: '#5D4037' },
-                { label: 'Preto', color: '#1A1A1A' }
+                { label: 'Vermelho/Acaju', color: '#910000' },
+                { label: 'Castanho Claro', color: '#8B7355' },
+                { label: 'Castanho Médio', color: '#5D4037' },
+                { label: 'Castanho Escuro', color: '#3C2F2F' },
+                { label: 'Preto', color: '#0A0A0A' }
               ]}
             />
             <VisualSlider 
