@@ -407,8 +407,10 @@ const App = () => {
   const renderProcessing = () => (
     <div className="animate-fade">
       <div className="card" style={{ padding: '60px 30px', marginTop: '20px', textAlign: 'center' }}>
-        <h2 className="serif" style={{ fontSize: '2.2rem', marginBottom: '15px', textTransform: 'none' }}>Análise Bioestética</h2>
-        <p style={{ fontSize: '0.65rem', color: 'var(--primary)', letterSpacing: '3px', marginBottom: '40px', fontWeight: '800' }}>SUÍTE DE ALTA PRECISÃO ATIVA</p>
+        <h2 className="serif" style={{ fontSize: '2.2rem', marginBottom: '10px', textTransform: 'none' }}>Análise Bioestética</h2>
+        <p style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '3px', marginBottom: '40px', fontWeight: '900', textTransform: 'uppercase' }}>
+          {loadingText.replace('...', '')} <span className="animate-pulse">_</span>
+        </p>
 
         {/* MODERN HOLOGRAM SCANNER */}
         <div className="hologram-container">
@@ -424,7 +426,7 @@ const App = () => {
           {analysisStep >= 11 && <div className="biometric-point" style={{ top: '25%', left: '55%' }}></div>}
         </div>
 
-        <div className="analysis-label-modern">{loadingText}</div>
+        <div style={{ fontSize: '0.6rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '4px', marginTop: '15px', fontWeight: '900' }}>SISTEMA NEURAL ATIVO</div>
         
         <div style={{ height: '3px', background: 'rgba(255,255,255,0.05)', margin: '30px 0', position: 'relative', borderRadius: '10px', overflow: 'hidden' }}>
           <div style={{ 
