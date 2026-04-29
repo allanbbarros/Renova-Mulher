@@ -123,6 +123,11 @@ const App = () => {
       }
     }
 
+    const adjustValue = (delta) => {
+      const newVal = Math.max(0, Math.min(1000, localValue + delta))
+      handleSliderChange({ target: { value: newVal } })
+    }
+
     return (
       <div className={`input-group ${showErrors && !formData[type] ? 'invalid shake' : ''}`}>
         <label className="label-futuristic">{label}</label>
@@ -132,15 +137,27 @@ const App = () => {
             {type === 'cor_cabelo' && <HairIcon color={interpolateColor(localValue)} />}
             {type === 'cor_olhos' && <EyeIcon color={interpolateColor(localValue)} />}
           </div>
-          <input 
-            type="range" 
-            min="0" 
-            max="1000" 
-            step="1"
-            value={localValue}
-            className={`skin-slider-track ${trackClass || ''}`}
-            onInput={handleSliderChange}
-          />
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+            <button className="slider-arrow-btn" onClick={() => adjustValue(-50)}>
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            
+            <input 
+              type="range" 
+              min="0" 
+              max="1000" 
+              step="1"
+              value={localValue}
+              className={`skin-slider-track ${trackClass || ''}`}
+              onInput={handleSliderChange}
+            />
+
+            <button className="slider-arrow-btn" onClick={() => adjustValue(50)}>
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="3" fill="none"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+
           <div className="skin-slider-labels">
             <span>{options[0].label.toUpperCase()}</span>
             <span style={{ color: 'var(--primary)', fontWeight: '900' }}>{formData[type] || 'AJUSTE'}</span>
