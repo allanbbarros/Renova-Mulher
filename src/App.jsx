@@ -54,9 +54,9 @@ const App = () => {
   const renderWelcome = () => (
     <div className="animate-fade">
       <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '40px' }}>
-        <div className="badge">BIOMETRY • COLOR • ESSENCE</div>
+        <div className="badge">BIOMETRIA • COR • ESSÊNCIA</div>
         <h1>
-          INTELLIGENCE <br/> <span className="serif" style={{ color: 'var(--primary)', textTransform: 'none' }}>Digital Luxury</span>
+          INTELIGÊNCIA <br/> <span className="serif" style={{ color: 'var(--primary)', textTransform: 'none' }}>Digital Luxury</span>
         </h1>
         <p style={{ letterSpacing: '2px', fontSize: 'clamp(0.6rem, 2vw, 0.75rem)', marginTop: '20px', color: 'var(--text-muted)', opacity: 0.8 }}>
           O FUTURO DA SUA IMAGEM COMEÇA AGORA
@@ -190,7 +190,7 @@ const App = () => {
           animation: 'scanner-move 3s infinite ease-in-out'
         }}></div>
 
-        <div className="badge">ULTIMATE DIAGNOSTIC SUITE</div>
+        <div className="badge">SUÍTE DE DIAGNÓSTICO AVANÇADO</div>
         <h2 style={{ fontSize: '1.4rem', marginBottom: '10px', color: 'var(--primary)', letterSpacing: '1px' }}>{loadingText}</h2>
         <div style={{ height: '3px', background: 'var(--glass-border)', margin: '25px 0', position: 'relative' }}>
           <div style={{ position: 'absolute', height: '100%', background: 'var(--primary)', width: `${(analysisStep / 12) * 100}%`, transition: 'all 0.5s', boxShadow: '0 0 15px var(--primary)' }}></div>
@@ -530,8 +530,8 @@ const App = () => {
 
             {/* SOCIAL PROOF / MEDIA */}
             <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', opacity: 0.5, marginBottom: '50px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '2px' }}>VOGUE NEWS</span>
-              <span style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '2px' }}>TECH FASHION</span>
+              <span style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '2px' }}>NOTÍCIAS VOGUE</span>
+              <span style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '2px' }}>MODA TECNOLÓGICA</span>
               <span style={{ fontSize: '0.6rem', fontWeight: '900', letterSpacing: '2px' }}>ESTILO DIGITAL</span>
             </div>
 
@@ -616,7 +616,7 @@ const App = () => {
             </div>
 
             <div style={{ textAlign: 'center', padding: '40px 0' }}>
-              <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)', letterSpacing: '1px' }}>© 2026 DIGITAL LUXURY AI • TODOS OS DIREITOS RESERVADOS</p>
+              <p style={{ fontSize: '0.6rem', color: 'var(--text-muted)', letterSpacing: '1px' }}>© 2026 IA DIGITAL LUXURY • TODOS OS DIREITOS RESERVADOS</p>
             </div>
           </div>
         )}
