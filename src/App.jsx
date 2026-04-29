@@ -220,10 +220,10 @@ const App = () => {
 
     return (
       <div className="animate-fade">
-        <div style={{ marginBottom: '30px' }}>
-          <div className="badge">PASSO {quizStep} DE 2</div>
-            <h2 className="serif" style={{ textTransform: 'none' }}>{quizStep === 1 ? 'Sua Identidade' : 'Seu Perfil Visual'}</h2>
-          <div className="progress-bar" style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginTop: '15px' }}>
+        <div style={{ marginBottom: '40px', textAlign: 'center' }}>
+          <h2 className="serif" style={{ textTransform: 'none', fontSize: '2rem' }}>{quizStep === 1 ? 'Sua Identidade' : 'Seu Perfil Visual'}</h2>
+          <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', letterSpacing: '2px', marginTop: '5px', opacity: 0.6 }}>PASSO {quizStep} DE 2</p>
+          <div className="progress-bar" style={{ height: '2px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', marginTop: '20px' }}>
             <div className="progress-fill" style={{ height: '100%', background: 'var(--primary)', width: `${quizStep === 1 ? '50%' : '100%'}`, transition: 'width 0.5s', borderRadius: '2px' }}></div>
           </div>
         </div>
@@ -330,10 +330,9 @@ const App = () => {
 
     return (
       <div className="animate-fade">
-        <div style={{ marginBottom: '30px' }}>
-          <div className="badge">SCAN VISUAL</div>
-          <h2 className="serif" style={{ textTransform: 'none' }}>Documentação <br/> Bioestética</h2>
-          <p style={{ fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', color: 'var(--text-muted)', marginTop: '10px' }}>Carregue uma selfie frontal com iluminação natural para precisão técnica.</p>
+        <div style={{ marginBottom: '40px', textAlign: 'center' }}>
+          <h2 className="serif" style={{ textTransform: 'none', fontSize: '2.2rem' }}>Documentação <br/> Bioestética</h2>
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '12px', letterSpacing: '1px', opacity: 0.7 }}>Carregue uma selfie frontal com iluminação natural para precisão técnica.</p>
         </div>
         
         <label className={`card animate-slide-up ${showErrors && !userPhotos.selfie ? 'invalid shake' : ''}`} style={{ cursor: 'pointer', textAlign: 'center', padding: '0', overflow: 'hidden', border: showErrors && !userPhotos.selfie ? '1px solid #ff4d4d' : '1px solid var(--glass-border)' }}>
@@ -407,9 +406,9 @@ const App = () => {
 
   const renderProcessing = () => (
     <div className="animate-fade">
-      <div className="card" style={{ padding: '50px 30px', marginTop: '30px', textAlign: 'center' }}>
-        <div className="badge">SUÍTE DE ALTA PRECISÃO ATIVA</div>
-        <h2 className="serif" style={{ fontSize: '1.8rem', marginBottom: '40px' }}>Análise Bioestética Avançada</h2>
+      <div className="card" style={{ padding: '60px 30px', marginTop: '20px', textAlign: 'center' }}>
+        <h2 className="serif" style={{ fontSize: '2.2rem', marginBottom: '15px', textTransform: 'none' }}>Análise Bioestética</h2>
+        <p style={{ fontSize: '0.65rem', color: 'var(--primary)', letterSpacing: '3px', marginBottom: '40px', fontWeight: '800' }}>SUÍTE DE ALTA PRECISÃO ATIVA</p>
 
         {/* MODERN HOLOGRAM SCANNER */}
         <div className="hologram-container">
@@ -485,10 +484,9 @@ const App = () => {
 
         {resultStep === 1 && (
           <div className="animate-fade">
-            <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-              <div className="badge">ETAPA 01 • GEOMETRIA FACIAL</div>
-              <h1 className="serif" style={{ textTransform: 'none' }}>DNA de <span className="primary-color">Impacto</span></h1>
-              <p style={{ letterSpacing: '2px', fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '10px' }}>MAPEAMENTO BIOMÉTRICO AVANÇADO</p>
+            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+              <h1 className="serif" style={{ textTransform: 'none', fontSize: '2.5rem' }}>DNA de <span className="primary-color">Impacto</span></h1>
+              <p style={{ letterSpacing: '3px', fontSize: '0.6rem', color: 'var(--primary)', marginTop: '8px', fontWeight: '800' }}>ETAPA 01 • GEOMETRIA FACIAL</p>
             </div>
 
             <div className="card animate-slide-up" style={{ padding: '0', overflow: 'hidden' }}>
@@ -566,8 +564,8 @@ const App = () => {
         {resultStep === 2 && (
           <div className="animate-fade">
             <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <div className="badge">ETAPA 02 • COLORIMETRIA</div>
-              <h2 className="serif" style={{ fontSize: '2.2rem', textTransform: 'none' }}>Laboratório de Subtom</h2>
+              <h2 className="serif" style={{ fontSize: '2.5rem', textTransform: 'none' }}>Laboratório de Subtom</h2>
+              <p style={{ letterSpacing: '3px', fontSize: '0.6rem', color: 'var(--primary)', marginTop: '8px', fontWeight: '800' }}>ETAPA 02 • COLORIMETRIA</p>
             </div>
 
             <div className="card animate-slide-up" style={{ padding: '30px' }}>
@@ -647,10 +645,10 @@ const App = () => {
               </div>
 
               {/* NEW MAKEUP LABORATORY SECTION (FREE) */}
-              <div style={{ marginTop: '40px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '40px' }}>
-                <div style={{ textAlign: 'center', marginBottom: '25px' }}>
-                  <div className="badge" style={{ background: 'var(--accent)', color: '#fff' }}>BÔNUS • LABORATÓRIO DE MAKEUP</div>
-                  <h3 className="serif" style={{ fontSize: '1.8rem', marginTop: '10px' }}>Harmonização Facial</h3>
+              <div style={{ marginTop: '50px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '50px' }}>
+                <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+                  <h3 className="serif" style={{ fontSize: '2.2rem', marginTop: '10px' }}>Harmonização Facial</h3>
+                  <p style={{ letterSpacing: '3px', fontSize: '0.6rem', color: 'var(--accent)', marginTop: '8px', fontWeight: '800' }}>BÔNUS • LABORATÓRIO DE MAKEUP</p>
                 </div>
 
                 <div className="card" style={{ padding: '0', overflow: 'hidden', border: '1px solid var(--primary)' }}>
@@ -685,10 +683,9 @@ const App = () => {
 
         {resultStep === 3 && (
           <div className="animate-fade">
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-              <div className="badge">ETAPA 03 • INTELIGÊNCIA CROMÁTICA</div>
-              <h2 className="serif" style={{ fontSize: '2.2rem', textTransform: 'none' }}>Sua Matriz de Poder</h2>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', letterSpacing: '2px', marginTop: '10px' }}>ANÁLISE DE PIGMENTAÇÃO NÍVEL 04</p>
+            <div style={{ textAlign: 'center', marginBottom: '45px' }}>
+              <h2 className="serif" style={{ fontSize: '2.5rem', textTransform: 'none' }}>Sua Matriz de Poder</h2>
+              <p style={{ letterSpacing: '3px', fontSize: '0.6rem', color: 'var(--primary)', marginTop: '8px', fontWeight: '800' }}>ETAPA 03 • INTELIGÊNCIA CROMÁTICA</p>
             </div>
 
             {/* MODERN TECHNOLOGICAL PALETTE ANALYSIS */}
