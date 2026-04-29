@@ -856,22 +856,22 @@ const App = () => {
               </div>
             </div>
 
-            <div style={{ marginTop: '30px' }}>
-              <h4 style={{ fontSize: '0.6rem', color: 'var(--primary)', textAlign: 'center', letterSpacing: '2px', marginBottom: '20px', opacity: 0.6 }}>PRÉVIA DO CONTEÚDO</h4>
+            <div style={{ marginTop: '40px' }}>
+              <h4 style={{ fontSize: '0.7rem', color: 'var(--primary)', textAlign: 'center', letterSpacing: '2px', marginBottom: '30px' }}>VISUALIZAÇÃO DA ENTREGA COMPLETA</h4>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '40px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', marginBottom: '50px' }}>
                 {[
-                  { img: '/dossier_preview.png', label: 'EDITORAIS' },
-                  { img: '/spreadsheet_preview.png', label: 'CÁPSULA' },
-                  { img: '/makeup_analysis_pt.png', label: 'BELEZA' },
-                  { img: '/accessories_analysis_pt.png', label: 'DESIGN' },
-                  { img: '/color_dna_preview.png', label: 'PALETAS' },
-                  { img: '/roadmap_preview.png', label: 'METAS' }
+                  { img: '/dossier_preview.png', label: 'AMOSTRA 01: DOSSIÊ EDITORIAL PERSONALIZADO (PDF)', h: '400px' },
+                  { img: '/spreadsheet_preview.png', label: 'AMOSTRA 02: PLANEJAMENTO DE GUARDA-ROUPA CÁPSULA', h: '350px' },
+                  { img: '/makeup_analysis_pt.png', label: 'AMOSTRA 03: LABORATÓRIO DE BELEZA E MAKEUP', h: '450px' },
+                  { img: '/accessories_analysis_pt.png', label: 'AMOSTRA 04: DESIGN DE ACESSÓRIOS E ÓCULOS', h: '450px' },
+                  { img: '/color_dna_preview.png', label: 'AMOSTRA 05: MAPA DE DNA CROMÁTICO E PALETA ESTENDIDA', h: '450px' },
+                  { img: '/roadmap_preview.png', label: 'AMOSTRA 06: CRONOGRAMA ANUAL DE TRANSFORMAÇÃO', h: '450px' }
                 ].map((item, idx) => (
-                  <div key={idx} className="card" style={{ padding: '0', overflow: 'hidden', marginBottom: '0', borderRadius: '12px' }}>
-                    <img src={item.img} style={{ width: '100%', height: '120px', objectFit: 'cover' }} />
-                    <div style={{ padding: '8px', textAlign: 'center', background: 'rgba(0,0,0,0.8)' }}>
-                      <p style={{ fontSize: '0.5rem', fontWeight: '900', letterSpacing: '1px' }}>{item.label}</p>
+                  <div key={idx} className="card" style={{ padding: '0', overflow: 'hidden', marginBottom: '0' }}>
+                    <img src={item.img} style={{ width: '100%', height: item.h, objectFit: 'cover' }} />
+                    <div style={{ padding: '15px', textAlign: 'center', background: 'rgba(0,0,0,0.5)' }}>
+                      <p style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '1px' }}>{item.label}</p>
                     </div>
                   </div>
                 ))}
