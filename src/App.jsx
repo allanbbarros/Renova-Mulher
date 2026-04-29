@@ -174,26 +174,25 @@ const App = () => {
 
   const renderWelcome = () => (
     <div className="animate-fade">
-      <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '40px' }}>
-        <div className="badge">BIOMETRIA • COR • ESSÊNCIA</div>
-        <div className="logo" style={{ fontSize: '2.2rem', marginBottom: '10px', display: 'block' }}>
+      <div style={{ textAlign: 'center', marginTop: '60px', marginBottom: '60px' }}>
+        <div className="logo" style={{ fontSize: '3.2rem', marginBottom: '8px', display: 'block', letterSpacing: '8px' }}>
           RENOVA <span>Mulher</span>
         </div>
-        <p style={{ letterSpacing: '2px', fontSize: 'clamp(0.8rem, 2.5vw, 1rem)', marginTop: '10px', color: 'var(--text-muted)', opacity: 0.8 }}>
+        <p style={{ letterSpacing: '4px', fontSize: '0.7rem', color: 'var(--text-muted)', opacity: 0.6, textTransform: 'uppercase', fontWeight: '900' }}>
           INTELIGÊNCIA ARTIFICIAL • DIGITAL LUXURY
         </p>
       </div>
       
-      <div className="image-container animate-slide-up" style={{ marginBottom: '40px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+      <div className="image-container animate-slide-up" style={{ marginBottom: '30px', boxShadow: '0 30px 60px rgba(0,0,0,0.7)' }}>
         <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} className="avatar-preview" alt="Welcome" />
         <div className="scan-line"></div>
-        <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', padding: '20px 30px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-          <h2 style={{ fontSize: 'clamp(1.2rem, 5vw, 1.8rem)', textTransform: 'none', lineHeight: '1.2' }} className="serif">Análise Bioestética por Inteligência Artificial.</h2>
+        <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', padding: '40px 30px', background: 'linear-gradient(to top, rgba(0,0,0,0.9), transparent)' }}>
+          <h2 style={{ fontSize: 'clamp(1.4rem, 6vw, 2rem)', textTransform: 'none', lineHeight: '1.2', fontWeight: '300' }} className="serif">Análise Bioestética por Inteligência Artificial.</h2>
         </div>
       </div>
 
-      <button className="btn-primary animate-slide-up" onClick={() => setStep('QUIZ')}>INICIAR MAPA DE BELEZA</button>
-      <p style={{ textAlign: 'center', marginTop: '25px', fontSize: '0.85rem', color: 'var(--text-muted)', letterSpacing: '1px' }}>ESCANEE SEU DNA VISUAL EM 30 SEGUNDOS</p>
+      <button className="btn-primary animate-slide-up btn-pulse" onClick={() => setStep('QUIZ')}>INICIAR MAPA DE BELEZA</button>
+      <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '0.75rem', color: 'var(--text-muted)', letterSpacing: '2px', opacity: 0.6 }}>ESCANEE SEU DNA VISUAL EM 30 SEGUNDOS</p>
     </div>
   )
 
