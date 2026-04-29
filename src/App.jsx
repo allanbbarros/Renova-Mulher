@@ -49,21 +49,21 @@ const App = () => {
 
   const renderWelcome = () => (
     <div className="animate-fade">
-      <div style={{ textAlign: 'center', marginTop: '40px', marginBottom: '60px' }}>
+      <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '40px' }}>
         <div className="badge">BIOMETRY • COLOR • ESSENCE</div>
-        <h1 style={{ fontSize: '2.8rem', lineHeight: '1.1', color: 'var(--white)', fontWeight: '900' }}>
-          INTELLIGENCE <br/> <span className="serif" style={{ color: 'var(--primary)', textTransform: 'none', fontSize: '2.4rem' }}>Digital Luxury</span>
+        <h1>
+          INTELLIGENCE <br/> <span className="serif" style={{ color: 'var(--primary)', textTransform: 'none' }}>Digital Luxury</span>
         </h1>
-        <p style={{ letterSpacing: '2px', fontSize: '0.75rem', marginTop: '20px', color: 'var(--text-muted)', opacity: 0.8 }}>
+        <p style={{ letterSpacing: '2px', fontSize: 'clamp(0.6rem, 2vw, 0.75rem)', marginTop: '20px', color: 'var(--text-muted)', opacity: 0.8 }}>
           O FUTURO DA SUA IMAGEM COMEÇA AGORA
         </p>
       </div>
       
-      <div className="image-container animate-slide-up" style={{ marginBottom: '50px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+      <div className="image-container animate-slide-up" style={{ marginBottom: '40px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
         <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} className="avatar-preview" alt="Welcome" />
         <div className="scan-line"></div>
-        <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', padding: '40px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
-          <h2 style={{ fontSize: '1.8rem', textTransform: 'none', lineHeight: '1.2' }} className="serif">Análise Bioestética por Inteligência Artificial.</h2>
+        <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', padding: '20px 30px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }}>
+          <h2 style={{ fontSize: 'clamp(1.2rem, 5vw, 1.8rem)', textTransform: 'none', lineHeight: '1.2' }} className="serif">Análise Bioestética por Inteligência Artificial.</h2>
         </div>
       </div>
 
@@ -76,8 +76,10 @@ const App = () => {
     <div className="animate-fade">
       <div style={{ marginBottom: '30px' }}>
         <div className="badge">PASSO {quizStep} DE 2</div>
-        <h2 style={{ fontSize: '1.8rem' }}>{quizStep === 1 ? 'Sua Identidade' : 'Seu Perfil Visual'}</h2>
-        <div className="progress-bar"><div className="progress-fill" style={{ width: `${quizStep === 1 ? '50%' : '100%'}` }}></div></div>
+        <h2>{quizStep === 1 ? 'Sua Identidade' : 'Seu Perfil Visual'}</h2>
+        <div className="progress-bar" style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '2px', marginTop: '15px' }}>
+          <div className="progress-fill" style={{ height: '100%', background: 'var(--primary)', width: `${quizStep === 1 ? '50%' : '100%'}`, transition: 'width 0.5s', borderRadius: '2px' }}></div>
+        </div>
       </div>
 
       {quizStep === 1 ? (
@@ -128,18 +130,18 @@ const App = () => {
 
   const renderPhotos = () => (
     <div className="animate-fade">
-      <div style={{ marginBottom: '40px' }}>
+      <div style={{ marginBottom: '30px' }}>
         <div className="badge">SCAN VISUAL</div>
-        <h2 style={{ fontSize: '2rem' }}>Documentação <span className="serif" style={{ textTransform: 'none' }}>Bioestética</span></h2>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '10px' }}>Carregue uma selfie frontal com iluminação natural para precisão técnica.</p>
+        <h2>Documentação <br/> <span className="serif" style={{ textTransform: 'none' }}>Bioestética</span></h2>
+        <p style={{ fontSize: 'clamp(0.75rem, 2vw, 0.85rem)', color: 'var(--text-muted)', marginTop: '10px' }}>Carregue uma selfie frontal com iluminação natural para precisão técnica.</p>
       </div>
       
       <label className="card animate-slide-up" style={{ cursor: 'pointer', textAlign: 'center', padding: '0', overflow: 'hidden' }}>
         <input type="file" hidden accept="image/*" onChange={(e) => handleFileUpload('selfie', e)} />
         {userPhotos.selfie ? (
-          <img src={userPhotos.selfie} style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
+          <img src={userPhotos.selfie} style={{ width: '100%', height: 'auto', minHeight: '300px', maxHeight: '400px', objectFit: 'cover' }} />
         ) : (
-          <div style={{ padding: '80px 40px' }}>
+          <div style={{ padding: '60px 30px' }}>
             <div style={{ fontSize: '3rem', marginBottom: '20px' }}>📸</div>
             <h4 style={{ color: 'var(--white)', fontSize: '0.8rem', letterSpacing: '2px' }}>CARREGAR FOTO</h4>
             <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '10px' }}>Certifique-se de estar sem óculos e com o rosto limpo.</p>
@@ -250,15 +252,15 @@ const App = () => {
 
         {resultStep === 1 && (
           <div className="animate-fade">
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '30px' }}>
               <div className="badge">ETAPA 01 • GEOMETRIA FACIAL</div>
-              <h1 style={{ fontSize: '2.5rem', lineHeight: '1' }}>DNA <br/> DE <span className="serif">Impacto</span></h1>
-              <p style={{ letterSpacing: '3px', fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '10px' }}>MAPEAMENTO BIOMÉTRICO AVANÇADO</p>
+              <h1>DNA <br/> DE <span className="serif">Impacto</span></h1>
+              <p style={{ letterSpacing: '2px', fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '10px' }}>MAPEAMENTO BIOMÉTRICO AVANÇADO</p>
             </div>
 
             <div className="card animate-slide-up" style={{ padding: '0', overflow: 'hidden' }}>
               <div style={{ position: 'relative' }}>
-                <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '500px', objectFit: 'cover' }} />
+                <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: 'auto', maxHeight: '500px', objectFit: 'cover' }} />
                 <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }} viewBox="0 0 100 100">
                   <path d="M30 40 L50 30 L70 40 L70 70 L50 85 L30 70 Z" fill="none" stroke="var(--primary)" strokeWidth="0.5" strokeDasharray="2 2" opacity="0.5" />
                   <line x1="30" y1="40" x2="70" y2="40" stroke="var(--primary)" strokeWidth="0.2" opacity="0.5" />
@@ -277,7 +279,7 @@ const App = () => {
                   </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px', marginBottom: '30px' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(70px, 1fr))', gap: '10px', marginBottom: '30px' }}>
                   {[
                     { label: 'OVAL', icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none"><ellipse cx="12" cy="12" rx="6" ry="9"/></svg>, active: diagnostic.faceShape === 'OVAL' },
                     { label: 'DIAMANTE', icon: <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="1.5" fill="none"><path d="M12 3L4 12L12 21L20 12L12 3Z"/></svg>, active: diagnostic.faceShape === 'DIAMANTE' },
@@ -286,7 +288,7 @@ const App = () => {
                   ].map((f, i) => (
                     <div key={i} style={{ textAlign: 'center', padding: '10px 5px', borderRadius: '12px', border: f.active ? '1px solid var(--primary)' : '1px solid var(--glass-border)', background: f.active ? 'rgba(240, 180, 170, 0.1)' : 'transparent', opacity: f.active ? 1 : 0.4 }}>
                       <div style={{ color: f.active ? 'var(--primary)' : '#fff', marginBottom: '8px', display: 'flex', justifyContent: 'center' }}>{f.icon}</div>
-                      <p style={{ fontSize: '0.45rem', fontWeight: '900', color: f.active ? 'var(--primary)' : '#fff' }}>{f.label}</p>
+                      <p style={{ fontSize: '0.5rem', fontWeight: '900', color: f.active ? 'var(--primary)' : '#fff' }}>{f.label}</p>
                     </div>
                   ))}
                 </div>
@@ -311,7 +313,7 @@ const App = () => {
             <div className="card animate-slide-up" style={{ padding: '30px' }}>
               <h4 style={{ fontSize: '0.7rem', color: 'var(--primary)', letterSpacing: '2px', marginBottom: '25px', textAlign: 'center' }}>REATIVIDADE DERMAL: {diagnostic.undertone}</h4>
               
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px', marginBottom: '35px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '35px' }}>
                 {[
                   { label: 'FRIO', colors: ['#f3cfb3', '#d8a68e'], active: diagnostic.undertone === 'FRIO' },
                   { label: 'QUENTE', colors: ['#e5c1a7', '#c68e17'], active: diagnostic.undertone === 'QUENTE' },
@@ -319,19 +321,19 @@ const App = () => {
                 ].map((s, i) => (
                   <div key={i} style={{ textAlign: 'center', opacity: s.active ? 1 : 0.2 }}>
                     <div style={{ width: '100%', paddingTop: '100%', borderRadius: '50%', background: `linear-gradient(45deg, ${s.colors[0]}, ${s.colors[1]})`, marginBottom: '10px', border: s.active ? '3px solid var(--primary)' : 'none', boxShadow: s.active ? '0 0 15px var(--primary-glow)' : 'none' }}></div>
-                    <p style={{ fontSize: '0.5rem', fontWeight: '900' }}>{s.label} {s.active ? '✓' : ''}</p>
+                    <p style={{ fontSize: '0.6rem', fontWeight: '900' }}>{s.label} {s.active ? '✓' : ''}</p>
                   </div>
                 ))}
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '30px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '15px', marginBottom: '30px' }}>
                 <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '12px' }}>
-                  <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '280px', objectFit: 'cover', filter: 'grayscale(0.6) brightness(0.9) contrast(0.8) sepia(0.2)' }} />
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(255,0,0,0.6)', padding: '5px 10px', borderRadius: '4px', fontSize: '0.45rem', fontWeight: '900' }}>EVITAR: {diagnostic.undertone === 'QUENTE' ? 'CINZAS' : 'DOURADOS'}</div>
+                  <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '200px', objectFit: 'cover', filter: 'grayscale(0.6) brightness(0.9) contrast(0.8) sepia(0.2)' }} />
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'rgba(255,0,0,0.6)', padding: '5px 10px', borderRadius: '4px', fontSize: '0.5rem', fontWeight: '900' }}>EVITAR: {diagnostic.undertone === 'QUENTE' ? 'CINZAS' : 'DOURADOS'}</div>
                 </div>
                 <div style={{ position: 'relative', overflow: 'hidden', borderRadius: '12px', border: '2px solid var(--primary)' }}>
-                  <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '280px', objectFit: 'cover', filter: 'saturate(1.2) contrast(1.1)' }} />
-                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary)', color: '#000', padding: '5px 10px', borderRadius: '4px', fontSize: '0.45rem', fontWeight: '900' }}>IDEAL: {diagnostic.undertone === 'QUENTE' ? 'QUENTES' : 'FRIOS'}</div>
+                  <img src={userPhotos.selfie || 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=800'} style={{ width: '100%', height: '200px', objectFit: 'cover', filter: 'saturate(1.2) contrast(1.1)' }} />
+                  <div style={{ position: 'absolute', top: '10px', left: '10px', background: 'var(--primary)', color: '#000', padding: '5px 10px', borderRadius: '4px', fontSize: '0.5rem', fontWeight: '900' }}>IDEAL: {diagnostic.undertone === 'QUENTE' ? 'QUENTES' : 'FRIOS'}</div>
                 </div>
               </div>
 
@@ -341,23 +343,23 @@ const App = () => {
                   {['#FFD700', '#C0C0C0', '#8B4513', '#4682B4'].map((c, i) => (
                     <div key={i} style={{ textAlign: 'center' }}>
                       <div style={{ width: '100%', height: '30px', background: c, borderRadius: '4px', marginBottom: '5px' }}></div>
-                      <p style={{ fontSize: '0.35rem' }}>{i%2 === 0 ? 'HARMONIZA' : 'CONFLITA'}</p>
+                      <p style={{ fontSize: '0.4rem', fontWeight: '700' }}>{i%2 === 0 ? 'SIM' : 'NÃO'}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '15px' }}>
                 <div style={{ background: 'rgba(255,0,0,0.03)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(255,0,0,0.1)' }}>
-                  <h6 style={{ fontSize: '0.55rem', color: '#ff4d4d', marginBottom: '8px' }}>POR QUE EVITAR?</h6>
+                  <h6 style={{ fontSize: '0.6rem', color: '#ff4d4d', marginBottom: '8px' }}>POR QUE EVITAR?</h6>
                   <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
-                    Tons {diagnostic.undertone === 'QUENTE' ? 'Frios e Cinzas' : 'Quentes e Alaranjados'} criam uma reação de "apagamento" no seu rosto. Eles acentuam olheiras, evidenciam manchas e deixam sua aparência cansada, mesmo após uma boa noite de sono.
+                    Tons {diagnostic.undertone === 'QUENTE' ? 'Frios' : 'Quentes'} "apagam" seu rosto, acentuando olheiras e cansaço visual.
                   </p>
                 </div>
                 <div style={{ background: 'rgba(0,255,0,0.03)', padding: '15px', borderRadius: '15px', border: '1px solid rgba(0,255,0,0.1)' }}>
-                  <h6 style={{ fontSize: '0.55rem', color: '#4dff4d', marginBottom: '8px' }}>POR QUE É IDEAL?</h6>
+                  <h6 style={{ fontSize: '0.6rem', color: '#4dff4d', marginBottom: '8px' }}>POR QUE É IDEAL?</h6>
                   <p style={{ fontSize: '0.65rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>
-                    Tons {diagnostic.undertone === 'QUENTE' ? 'Dourados e Terrosos' : 'Azulados e Prateados'} reagem with seus pigmentos naturais, "limpando" a pele visualmente. Eles trazem luminosidade instantânea, uniformizam o tom e realçam o brilho natural dos seus olhos.
+                    Tons {diagnostic.undertone === 'QUENTE' ? 'Dourados' : 'Prateados'} trazem luminosidade e uniformizam seu tom de pele.
                   </p>
                 </div>
               </div>
@@ -424,19 +426,18 @@ const App = () => {
                 </div>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '15px', marginBottom: '35px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(65px, 1fr))', gap: '12px', marginBottom: '35px' }}>
                 {[
-                  { c: '#4b5320', n: 'AUTORIDADE', hex: '#4B5320' }, { c: '#004242', n: 'MISTÉRIO', hex: '#004242' }, 
-                  { c: '#a0522d', n: 'ESTABILIDADE', hex: '#A0522D' }, { c: '#c68e17', n: 'PROSPERIDADE', hex: '#C68E17' }, 
-                  { c: '#5d4037', n: 'TERRA', hex: '#5D4037' }, { c: '#8b4513', n: 'VIGOR', hex: '#8B4513' }, 
-                  { c: '#4b0000', n: 'PAIXÃO', hex: '#4B0000' }, { c: '#2f4f4f', n: 'FOCO', hex: '#2F4F4F' }, 
-                  { c: '#1a1a1a', n: 'ABSOLUTO', hex: '#1A1A1A' }, { c: '#cfb53b', n: 'LUMINOSIDADE', hex: '#CFB53B' }, 
-                  { c: '#e5c1a7', n: 'SUAVIDADE', hex: '#E5C1A7' }, { c: '#d8a68e', n: 'EQUILÍBRIO', hex: '#D8A68E' }
+                  { c: '#4b5320', n: 'AUTORIDADE' }, { c: '#004242', n: 'MISTÉRIO' }, 
+                  { c: '#a0522d', n: 'ESTABILIDADE' }, { c: '#c68e17', n: 'PROSPERIDADE' }, 
+                  { c: '#5d4037', n: 'TERRA' }, { c: '#8b4513', n: 'VIGOR' }, 
+                  { c: '#4b0000', n: 'PAIXÃO' }, { c: '#2f4f4f', n: 'FOCO' }, 
+                  { c: '#1a1a1a', n: 'ABSOLUTO' }, { c: '#cfb53b', n: 'LUZ' }, 
+                  { c: '#e5c1a7', n: 'ZEN' }, { c: '#d8a68e', n: 'PAZ' }
                 ].map((item, i) => (
                   <div key={i} style={{ textAlign: 'center' }}>
-                    <div style={{ width: '100%', paddingTop: '100%', borderRadius: '15px', background: item.c, boxShadow: '0 8px 20px rgba(0,0,0,0.4)', marginBottom: '8px', border: '1px solid rgba(255,255,255,0.05)' }}></div>
-                    <p style={{ fontSize: '0.35rem', fontWeight: '900', color: 'var(--primary)' }}>{item.n}</p>
-                    <p style={{ fontSize: '0.3rem', color: 'var(--text-muted)', marginTop: '2px' }}>{item.hex}</p>
+                    <div style={{ width: '100%', paddingTop: '100%', borderRadius: '12px', background: item.c, boxShadow: '0 8px 20px rgba(0,0,0,0.4)', marginBottom: '8px', border: '1px solid rgba(255,255,255,0.05)' }}></div>
+                    <p style={{ fontSize: '0.45rem', fontWeight: '900', color: 'var(--primary)' }}>{item.n}</p>
                   </div>
                 ))}
               </div>
@@ -463,16 +464,14 @@ const App = () => {
                 </div>
               </div>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '15px' }}>
                 <div className="card" style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', marginBottom: '0', border: '1px solid rgba(255,255,255,0.03)' }}>
-                  <h6 style={{ fontSize: '0.55rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>METAIS E ACABAMENTOS</h6>
-                  <p style={{ fontSize: '0.7rem', fontWeight: '700', marginBottom: '5px' }}>{diagnostic.undertone === 'QUENTE' ? 'Ouro Polido / Cobre' : 'Prata / Ouro Branco'}</p>
-                  <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)' }}>Acabamento: {diagnostic.undertone === 'QUENTE' ? 'Escovado ou Martelado' : 'Polido Espelhado'}</p>
+                  <h6 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>METAIS</h6>
+                  <p style={{ fontSize: '0.7rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Ouro / Cobre' : 'Prata / Ouro Branco'}</p>
                 </div>
                 <div className="card" style={{ padding: '20px', background: 'rgba(255,255,255,0.02)', marginBottom: '0', border: '1px solid rgba(255,255,255,0.03)' }}>
-                  <h6 style={{ fontSize: '0.55rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>FIBRAS E TEXTURAS</h6>
-                  <p style={{ fontSize: '0.7rem', fontWeight: '700', marginBottom: '5px' }}>{diagnostic.undertone === 'QUENTE' ? 'Linho, Seda e Veludo' : 'Lã Fria, Couro e Crepe'}</p>
-                  <p style={{ fontSize: '0.55rem', color: 'var(--text-muted)' }}>Peso: {diagnostic.contrast === 'MÉDIO-ALTO' ? 'Estruturado' : 'Fluido'}</p>
+                  <h6 style={{ fontSize: '0.6rem', color: 'var(--primary)', marginBottom: '10px', letterSpacing: '1px' }}>TEXTURAS</h6>
+                  <p style={{ fontSize: '0.7rem', fontWeight: '700' }}>{diagnostic.undertone === 'QUENTE' ? 'Linho / Seda' : 'Lã Fria / Couro'}</p>
                 </div>
               </div>
             </div>
@@ -588,29 +587,27 @@ const App = () => {
             </div>
 
             {/* PRICE & CTA */}
-            <div className="card animate-slide-up" style={{ background: 'var(--primary)', color: '#000', textAlign: 'center', padding: '50px 30px', borderRadius: '40px', border: 'none', boxShadow: '0 30px 60px rgba(240, 180, 170, 0.4)' }}>
+            <div className="card animate-slide-up" style={{ background: 'var(--primary)', color: '#000', textAlign: 'center', padding: '40px 20px', borderRadius: '32px', border: 'none', boxShadow: '0 30px 60px rgba(240, 180, 170, 0.4)' }}>
               <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center' }}>
-                <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M6 3h12l4 6-10 12L2 9l4-6z"/><path d="M11 3v18"/><path d="M22 9H2"/><path d="M4.5 9L11 21"/><path d="M19.5 9L13 21"/></svg>
+                <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M6 3h12l4 6-10 12L2 9l4-6z"/><path d="M11 3v18"/><path d="M22 9H2"/><path d="M4.5 9L11 21"/><path d="M19.5 9L13 21"/></svg>
               </div>
-              <div className="badge" style={{ background: '#000', color: '#fff', marginBottom: '20px' }}>OFERTA DE ESTREIA (1º MÊS)</div>
-              <h2 className="serif" style={{ fontSize: '2.8rem', fontWeight: '900', marginBottom: '10px', color: '#000' }}>R$ 14,90</h2>
-              <p style={{ fontSize: '0.8rem', fontWeight: '700', textDecoration: 'line-through', opacity: 0.6, marginBottom: '20px' }}>VALOR ORIGINAL: R$ 149,90</p>
+              <div className="badge" style={{ background: '#000', color: '#fff', marginBottom: '15px' }}>OFERTA DE ESTREIA</div>
+              <h2 className="serif" style={{ fontSize: 'clamp(2rem, 10vw, 2.8rem)', fontWeight: '900', marginBottom: '5px', color: '#000' }}>R$ 14,90</h2>
+              <p style={{ fontSize: '0.75rem', fontWeight: '700', textDecoration: 'line-through', opacity: 0.6, marginBottom: '25px' }}>VALOR ORIGINAL: R$ 149,90</p>
               
-              <div style={{ background: 'rgba(0,0,0,0.05)', padding: '20px', borderRadius: '20px', marginBottom: '30px' }}>
-                <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', fontSize: '0.75rem', fontWeight: '900', lineHeight: '1.4' }}>
-                  <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                  RECEBA IMEDIATAMENTE VIA:<br/>
-                  EMAIL E WHATSAPP
+              <div style={{ background: 'rgba(0,0,0,0.05)', padding: '15px', borderRadius: '15px', marginBottom: '25px' }}>
+                <p style={{ fontSize: '0.7rem', fontWeight: '900', lineHeight: '1.4' }}>
+                  RECEBA IMEDIATAMENTE VIA EMAIL E WHATSAPP
                 </p>
               </div>
 
-              <button className="btn-primary" style={{ background: '#000', color: '#fff', fontSize: '1.2rem', padding: '25px', width: '100%', boxShadow: '0 15px 30px rgba(0,0,0,0.3)' }} onClick={() => window.location.href = 'https://pay.hotmart.com/exemplo'}>
+              <button className="btn-primary" style={{ background: '#000', color: '#fff', fontSize: '1.1rem', padding: '20px', width: '100%', boxShadow: '0 15px 30px rgba(0,0,0,0.3)' }} onClick={() => window.location.href = 'https://pay.hotmart.com/exemplo'}>
                 QUERO MEU DOSSIÊ AGORA
               </button>
               
-              <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '0.55rem', marginTop: '20px', fontWeight: '700', opacity: 0.7 }}>
-                <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" strokeWidth="2" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                PAGAMENTO SEGURO VIA HOTMART
+              <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', fontSize: '0.5rem', marginTop: '15px', fontWeight: '700', opacity: 0.7 }}>
+                <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" strokeWidth="2" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                PAGAMENTO SEGURO HOTMART
               </p>
             </div>
 
