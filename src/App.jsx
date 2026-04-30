@@ -896,7 +896,7 @@ const App = () => {
                 </p>
               </div>
 
-              <button id="checkout-button" className="btn-primary btn-pulse" style={{ background: '#000', color: '#fff', fontSize: '1.1rem', padding: '20px', width: '100%', boxShadow: '0 15px 30px rgba(0,0,0,0.3)' }} onClick={() => window.location.href = 'https://pay.lowify.com.br/checkout?product_id=fTJQGj'}>
+              <button id="checkout-button" className="checkout-btn btn-primary btn-pulse" style={{ background: '#000', color: '#fff', fontSize: '1.1rem', padding: '20px', width: '100%', boxShadow: '0 15px 30px rgba(0,0,0,0.3)' }} onClick={() => window.location.href = 'https://pay.lowify.com.br/checkout?product_id=fTJQGj'}>
                 QUERO MEU DOSSIÊ AGORA
               </button>
               
